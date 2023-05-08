@@ -1,0 +1,1 @@
+.appHeader {    display: flex;    justify-content: space-around;    align-items: center;}.appHeaderButtons {    display: flex;    gap: 8px}
