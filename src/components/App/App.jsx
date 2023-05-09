@@ -9,9 +9,10 @@ import useModal from "../../hooks/useModal";
 import IngredientDetails from "../Modal/IngredientDetails";
 import Modal from "../Modal/Modal";
 import ModalWrapper from "../Modal/ModalWrapper";
+import {fetcher} from "../../api/burgerDataFetcher";
 
 
-const URL = 'https://norma.nomoreparties.space/api/ingredients'
+
 function App() {
   const [data, setData] = useState([])
   const [isOpen, openModal, closeModal] = useModal()
@@ -40,19 +41,20 @@ function App() {
         openModal()
     }
 
-  useEffect(() => {
-    fetch(URL)
-        .then(res => res.json())
-        .then(data => setData(data.data))
-        .catch(err => console.log(err))
+    const fetchIngredients = async () => {
+        const data = await fetcher('ingredients')
+        setData(data.data)
+    }
+  useEffect( () => {
+      fetchIngredients()
   }, [])
 
 
 
   return (
-    <div className={`${AppStyles.App} pt-10`}>
-        <ModalWrapper onClose={closeModal}>
-            { isOpen && <Modal onClose={closeModal} title={modalData.type === 'ingredient' && 'Детали ингридиента'} classes={modalData.classes}>
+    <div className={`${AppStyles.App}`}>
+        <ModalWrapper onClose={closeModal} display={isOpen? 'flex' : 'none'}>
+            { isOpen && <Modal onClose={closeModal} title={modalData.type === 'ingredient' && 'Детали ингридиента'} classes={modalData.classes} isOpen={isOpen}>
                 <>
                     {
                         modalData.type === 'ingredient'

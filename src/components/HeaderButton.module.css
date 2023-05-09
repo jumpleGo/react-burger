@@ -1,1 +1,1 @@
-.headerButton {    display: flex;    align-items: center;    gap: 8px;    background: #1C1C21;    border: 1px dashed #4C4CFF;    border-radius: 40px;}.headerButton:hover {    cursor: pointer;}.active {    color: #F2F2F3}.notActive {    color: #8585AD}
+.headerButton {    display: flex;    align-items: center;    gap: 8px;    background: transparent;    border: none}.headerButton:hover {    cursor: pointer;}.active {    color: #F2F2F3}.notActive {    color: #8585AD}
