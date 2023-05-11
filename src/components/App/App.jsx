@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import AppStyles from './App.module.css';
+import AppStyles from '../../styles/App/App.module.css';
 import AppHeader from './AppHeader'
 import AppContent from "./AppContent";
 import BurgerIngredients from "../BurgerIngredients";
