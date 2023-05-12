@@ -1,1 +1,5 @@
-export const translateTabs = {    bun: 'Булки',    main: 'Начинки',    sauce: 'Соусы'}
+export const translateTabs = {
+    bun: 'Булки',
+    main: 'Начинки',
+    sauce: 'Соусы'
+}

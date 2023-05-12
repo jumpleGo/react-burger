@@ -1,1 +1,5 @@
-.appContent {    display: flex;    justify-content: center;    column-gap: 40px;}
+.appContent {
+    display: flex;
+    justify-content: center;
+    column-gap: 40px;
+}

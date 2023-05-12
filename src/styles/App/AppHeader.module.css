@@ -1,1 +1,10 @@
-.appHeader {    display: flex;    justify-content: space-around;    align-items: center;    background: #1C1C21;}.appHeaderButtons {    display: flex;    gap: 8px}
+.appHeader {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: #1C1C21;
+}
+.appHeaderButtons {
+    display: flex;
+    gap: 8px
+}
