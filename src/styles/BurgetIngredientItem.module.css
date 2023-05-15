@@ -1,0 +1,16 @@
+.burgerIngredientItem {
+    max-width: 272px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.image {
+    max-height: 120px;
+    height: 100%;
+}
+.price {
+    display: flex;
+    align-items: center;
+    margin: 9px 0;
+}
