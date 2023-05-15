@@ -2,7 +2,46 @@ import {ConstructorElement, CurrencyIcon, Button} from "@ya.praktikum/react-deve
 import DragConstructorElementWrapper from "./DragConstructorElementWrapper";
 import BurgerConstructorStyles from '../styles/BurgerConstructor.module.css'
 import PropTypes from "prop-types";
-function BurgerConstructor ({onOrderConfirm}) {
+import {BurgerConstructorContext} from "../services/burgerConstructorContext";
+import {useContext, useEffect, useReducer, useState} from "react";
+
+function BurgerConstructor () {
+    const burgerConstructorCtx = useContext(BurgerConstructorContext);
+    const [bun, setBun] = useState({})
+    const [filling, setFilling] = useState([])
+    const [totalPrice, setTotalPrice] = useState(0)
+
+    const initialState = {
+        ids: []
+    }
+    const reducer = (state, action) => {
+        const fillingIds = action?.reduce((acc, item) => {
+            acc.push(item._id)
+            return acc
+        }, [])
+        return {
+            ids: [...fillingIds, bun._id, bun._id]
+        }
+    }
+    const [idValue, dispatch] = useReducer(reducer, initialState, undefined)
+
+    useEffect(() => {
+        if (!burgerConstructorCtx.data?.length) return
+        const buns = burgerConstructorCtx.data.filter(item => item.type === 'bun')
+        const filling = burgerConstructorCtx.data.filter(item => item.type !== 'bun')
+
+        if(buns.length) setBun(buns[0])
+        if(filling.length) {
+            dispatch(filling)
+            setFilling(filling)
+        }
+        console.log(buns, filling)
+        const totalPrice = buns?.[0]?.price * 2 + filling?.reduce((acc, item) => {
+            acc += item?.price
+            return acc
+        }, 0)
+        setTotalPrice(totalPrice)
+    }, [burgerConstructorCtx.data])
     return (
         <div className={`${BurgerConstructorStyles.burgerConstructor} mt-25`}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }} >
@@ -10,70 +49,46 @@ function BurgerConstructor ({onOrderConfirm}) {
                     extraClass="ml-8"
                     type="top"
                     isLocked={true}
-                    text="Краторная булка N-200i (верх)"
-                    price={200}
-                    thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
+                    text={bun.name + "(верх)"}
+                    price={bun.price}
+                    thumbnail={bun.image}
                 />
                 <div className={`${BurgerConstructorStyles.ingredients} pr-4`}>
-                    <DragConstructorElementWrapper>
-                        <ConstructorElement
-                            extraClass="ml-1"
-                            text="Соус традиционный галактический"
-                            price={15}
-                            thumbnail="https://code.s3.yandex.net/react/code/sauce-03-mobile.png"/>
-                    </DragConstructorElementWrapper>
-                    <DragConstructorElementWrapper>
-                        <ConstructorElement
-                            extraClass="ml-1"
-                            text="Мясо бессмертных моллюсков Protostomia"
-                            price={1337}
-                            thumbnail="https://code.s3.yandex.net/react/code/meat-02-mobile.png"/>
-                    </DragConstructorElementWrapper>
-                    <DragConstructorElementWrapper>
-                        <ConstructorElement
-                            extraClass="ml-1"
-                            text="Плоды Фалленианского дерева"
-                            price={874}
-                            thumbnail="https://code.s3.yandex.net/react/code/sp_1-mobile.png"/>
-                    </DragConstructorElementWrapper>
-                    <DragConstructorElementWrapper>
-                        <ConstructorElement
-                            extraClass="ml-1"
-                            text="Филе Люминесцентного тетраодонтимформа"
-                            price={988}
-                            thumbnail="https://code.s3.yandex.net/react/code/meat-03.png"/>
-                    </DragConstructorElementWrapper>
-                    <DragConstructorElementWrapper>
-                        <ConstructorElement
-                            extraClass="ml-1"
-                            text="Филе Люминесцентного тетраодонтимформа"
-                            price={988}
-                            thumbnail="https://code.s3.yandex.net/react/code/meat-03.png"/>
-                    </DragConstructorElementWrapper>
+                    {
+                        filling?.map((item) => (
+                            <DragConstructorElementWrapper key={item._id}>
+                                <ConstructorElement
+                                    key={item._id}
+                                    extraClass="ml-1"
+                                    text={item.name}
+                                    price={item.price}
+                                    thumbnail={item.image}/>
+                            </DragConstructorElementWrapper>
+                        ))
+                    }
+
                 </div>
 
                 <ConstructorElement
                     extraClass="ml-8"
                     type="bottom"
                     isLocked={true}
-                    text="Краторная булка N-200i (низ)"
-                    price={200}
-                    thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
+                    text={bun.name + "(низ)"}
+                    price={bun.price}
+                    thumbnail={bun.image}
                 />
             </div>
             <div className={`${BurgerConstructorStyles.total} mr-4 mt-10 mb-10`}>
                 <div className={BurgerConstructorStyles.totalPrice}>
-                    <span className="text text_type_digits-medium">200</span>
+                    <span className="text text_type_digits-medium">{totalPrice}</span>
                     <CurrencyIcon />
                 </div>
-                <Button type="primary" size="large" htmlType="button" extraClass="ml-10" onClick={() => onOrderConfirm()}>
+                <Button type="primary" size="large" htmlType="button" extraClass="ml-10" onClick={() => burgerConstructorCtx.orderConfirm(idValue.ids)}>
                     Оформить заказ
                 </Button>
             </div>
         </div>
     )
 }
-BurgerConstructor.propTypes = {
-    onOrderConfirm: PropTypes.func.isRequired
-}
+
 export default BurgerConstructor
