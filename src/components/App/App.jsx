@@ -9,7 +9,8 @@ import useModal from "../../hooks/useModal";
 import IngredientDetails from "../Modal/IngredientDetails";
 import Modal from "../Modal/Modal";
 import ModalWrapper from "../Modal/ModalWrapper";
-import {fetcher} from "../../api/burgerDataFetcher";
+import {fetchData, order} from "../../api/burgerApi";
+import {BurgerConstructorContext} from "../../services/burgerConstructorContext";
 
 
 
@@ -32,9 +33,10 @@ function App() {
         openModal()
     }
 
-    const orderConfirm = () => {
+    const orderConfirm = async (orderArr) => {
+        const orderData = await order({ingredients: orderArr})
         setModalData({
-            content: null,
+            content: orderData,
             type: 'order',
             classes: 'pt-30 pl-10 pr-10 pb-30'
         })
@@ -42,7 +44,7 @@ function App() {
     }
 
     const fetchIngredients = async () => {
-        const data = await fetcher('ingredients')
+        const data = await fetchData()
         setData(data.data)
     }
   useEffect( () => {
@@ -59,7 +61,7 @@ function App() {
                     {
                         modalData.type === 'ingredient'
                             ? <IngredientDetails ingredient={modalData.content}/>
-                            : <OrderDetails/>
+                            : <OrderDetails order={modalData.content}/>
                     }
                 </>
 
@@ -69,7 +71,9 @@ function App() {
       <AppHeader />
       <AppContent>
           <BurgerIngredients data={data} onIngredientSelect={addIngredient} />
-          <BurgerConstructor onOrderConfirm={orderConfirm} />
+          <BurgerConstructorContext.Provider value={{data, orderConfirm}}>
+            <BurgerConstructor />
+          </BurgerConstructorContext.Provider>
       </AppContent>
     </div>
   );
