@@ -1,15 +1,15 @@
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 
 import BurgerIngredientsStyles from '../styles/BurgerIngredients.module.css'
 import {translateTabs} from './../helpers/transcriptions'
-import { BurgerIngredientItemPropsType} from "../helpers/propsTypes/BurgerIngredientItem";
 import BurgerIngredientItem from "./BurgerIngredientItem";
+import {BurgerConstructorContext} from "../services/burgerConstructorContext";
 
 
 
-function BurgerIngredients ({data, onIngredientSelect}) {
+function BurgerIngredients () {
+    const burgerConstructorCtx = useContext(BurgerConstructorContext);
     const [selectedType, setSelectedType] = useState("bun");
     const [state, setState] = useState({
         ingredientsByType: [],
@@ -17,9 +17,9 @@ function BurgerIngredients ({data, onIngredientSelect}) {
         tabs: []
     })
     useEffect(() => {
-        if (!data.length) return
+        if (!burgerConstructorCtx.data.length) return
 
-        const sortedData = data.reduce((acc , item) => {
+        const sortedData = burgerConstructorCtx.data.reduce((acc , item) => {
             if (acc[item.type]) acc[item.type].push(item)
             else acc[item.type] = [item]
             return acc
@@ -36,7 +36,7 @@ function BurgerIngredients ({data, onIngredientSelect}) {
                                     className="mb-8"
                                     ingredientItem={item}
                                     key={`ingredient-item-${type}-${item._id}`}
-                                    onClick={onIngredientSelect}
+                                    onClick={burgerConstructorCtx.addIngredient}
                                 />
                         ))}
                     </div>
@@ -60,7 +60,7 @@ function BurgerIngredients ({data, onIngredientSelect}) {
             listItemsTemplate: template,
             tabs: tabs
         })
-    }, [data])
+    }, [burgerConstructorCtx.data])
 
     const selectTab = (type) => setSelectedType(type)
 
@@ -77,13 +77,6 @@ function BurgerIngredients ({data, onIngredientSelect}) {
             </div>
         </div>
     )
-}
-
-const dataPropType = PropTypes.shape(BurgerIngredientItemPropsType)
-
-BurgerIngredients.propTypes = {
-    data: PropTypes.arrayOf(dataPropType).isRequired,
-    onIngredientSelect: PropTypes.func.isRequired
 }
 
 export default BurgerIngredients

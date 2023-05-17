@@ -22,6 +22,6 @@ function OrderDetails ({order}) {
 }
 const orderPropType = PropTypes.shape(BurgerIngredientItemPropsType)
 OrderDetails.propTypes = {
-    order: PropTypes.arrayOf(orderPropType).isRequired
+    order: PropTypes.objectOf(orderPropType).isRequired
 }
 export default OrderDetails

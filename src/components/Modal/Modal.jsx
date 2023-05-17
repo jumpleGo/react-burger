@@ -3,35 +3,36 @@ import ModalStyles from '../../styles/Modal/Modal.module.css'
 import PropTypes from "prop-types";
 import {useEffect} from "react";
 
-function Modal({onClose, classes, title, children, isOpen}) {
+function Modal({onClose, classes, title, children}) {
     useEffect(() => {
         function handleEsc(event) {
-            if (event.keyCode === 27) {
+            if (event.key === 'Escape') {
                 onClose();
             }
         }
 
-        if (isOpen) {
             document.addEventListener("keydown", handleEsc);
-        }
 
         return () => {
             document.removeEventListener("keydown", handleEsc);
         };
-    }, [isOpen, onClose]);
+    }, [onClose]);
 
     return (
-        <div className={`${ModalStyles.modal} ${classes}`} >
-            {title &&
-                <div className={ModalStyles.modalHeader}>
-                    <h2 className="text text_type_main-large">{title}</h2>
+        <div className={ModalStyles.modalWrapper}>
+            <div className={`${ModalStyles.modal} ${classes}`} >
+                {title &&
+                    <div className={ModalStyles.modalHeader}>
+                        <h2 className="text text_type_main-large">{title}</h2>
+                    </div>
+                }
+                <div onClick={() => onClose()} className={ModalStyles.close}>
+                    <CloseIcon type="primary" />
                 </div>
-            }
-            <div onClick={() => onClose()} className={ModalStyles.close}>
-                <CloseIcon type="primary" />
+                {children}
             </div>
-            {children}
         </div>
+
     );
 }
 
