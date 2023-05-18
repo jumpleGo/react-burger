@@ -41,7 +41,6 @@ function App() {
             orderData = await order({ingredients: orderArr})
         } catch (err) {
             console.log(err)
-            throw err
         }
 
         setModalData({
@@ -59,7 +58,6 @@ function App() {
 
         } catch (err) {
             console.log(err)
-            throw err
         }
 
         setData(data.data)
@@ -75,10 +73,9 @@ function App() {
             (isOpen &&
                  <Modal
                      onClose={closeModal}
-                     title={modalData.type === 'ingredient' && 'Детали ингридиента'}
+                     title={modalData.type === 'ingredient' ? 'Детали ингридиента' : ''}
                      classes={modalData.classes}>
                     <>
-                        <ModalOverlay onClose={closeModal} />
                         { modalData.type === 'ingredient'
                             ? <IngredientDetails ingredient={modalData.content}/>
                             : <OrderDetails order={modalData.content}/>

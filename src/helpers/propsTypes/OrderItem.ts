@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
 
 export const OrderItemPropsType =  {
-    status: PropTypes.bool.isRequired,
-    order: {
+    success: PropTypes.bool.isRequired,
+    order: PropTypes.shape({
         number: PropTypes.number.isRequired
-    },
-    name:PropTypes.string.isRequired,
+    }).isRequired,
+    name: PropTypes.string.isRequired,
 }

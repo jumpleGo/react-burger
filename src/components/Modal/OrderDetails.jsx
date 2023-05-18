@@ -1,7 +1,9 @@
 import OrderDetailsStyles from '../../styles/Modal/OrderDetails.module.css'
 import PropTypes from "prop-types";
-import {BurgerIngredientItemPropsType} from "../../helpers/propsTypes/BurgerIngredientItem";
+import {OrderItemPropsType} from "../../helpers/propsTypes/OrderItem";
+
 function OrderDetails ({order}) {
+    console.log(order)
     return (
         <div className={OrderDetailsStyles.wrapper}>
             <h2 className="text text_type_digits-large mb-8">
@@ -20,8 +22,8 @@ function OrderDetails ({order}) {
         </div>
     )
 }
-const orderPropType = PropTypes.shape(BurgerIngredientItemPropsType)
+
 OrderDetails.propTypes = {
-    order: PropTypes.objectOf(orderPropType).isRequired
+    order: PropTypes.shape(OrderItemPropsType).isRequired
 }
 export default OrderDetails
