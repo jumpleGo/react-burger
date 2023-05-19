@@ -8,8 +8,10 @@ import OrderDetails from "../Modal/OrderDetails"
 import useModal from "../../hooks/useModal";
 import IngredientDetails from "../Modal/IngredientDetails";
 import Modal from "../Modal/Modal";
-import ModalWrapper from "../Modal/ModalWrapper";
-import {fetcher} from "../../api/burgerDataFetcher";
+import {fetchData, order} from "../../api/burgerApi";
+import {BurgerConstructorContext} from "../../services/burgerConstructorContext";
+import ReactDOM from "react-dom";
+import ModalOverlay from "../Modal/ModalOverlay";
 
 
 
@@ -32,9 +34,17 @@ function App() {
         openModal()
     }
 
-    const orderConfirm = () => {
+    const orderConfirm = async (orderArr) => {
+        let orderData = null
+
+        try{
+            orderData = await order({ingredients: orderArr})
+        } catch (err) {
+            console.log(err)
+        }
+
         setModalData({
-            content: null,
+            content: orderData,
             type: 'order',
             classes: 'pt-30 pl-10 pr-10 pb-30'
         })
@@ -42,34 +52,46 @@ function App() {
     }
 
     const fetchIngredients = async () => {
-        const data = await fetcher('ingredients')
+        let data = null
+        try {
+            data = await fetchData()
+
+        } catch (err) {
+            console.log(err)
+        }
+
         setData(data.data)
     }
   useEffect( () => {
       fetchIngredients()
   }, [])
 
-
-
+  const element = document.getElementById("modal-root")
   return (
     <div className={`${AppStyles.App}`}>
-        <ModalWrapper onClose={closeModal} display={isOpen? 'flex' : 'none'}>
-            { isOpen && <Modal onClose={closeModal} title={modalData.type === 'ingredient' && 'Детали ингридиента'} classes={modalData.classes} isOpen={isOpen}>
-                <>
-                    {
-                        modalData.type === 'ingredient'
+        { ReactDOM.createPortal(
+            (isOpen &&
+                 <Modal
+                     onClose={closeModal}
+                     title={modalData.type === 'ingredient' ? 'Детали ингридиента' : ''}
+                     classes={modalData.classes}>
+                    <>
+                        { modalData.type === 'ingredient'
                             ? <IngredientDetails ingredient={modalData.content}/>
-                            : <OrderDetails/>
-                    }
-                </>
+                            : <OrderDetails order={modalData.content}/>
+                        }
 
-            </Modal>
-            }
-        </ModalWrapper>
+                    </>
+                </Modal>),
+            element
+            )
+        }
       <AppHeader />
       <AppContent>
-          <BurgerIngredients data={data} onIngredientSelect={addIngredient} />
-          <BurgerConstructor onOrderConfirm={orderConfirm} />
+          <BurgerConstructorContext.Provider value={{data, orderConfirm, addIngredient}}>
+            <BurgerIngredients />
+            <BurgerConstructor />
+          </BurgerConstructorContext.Provider>
       </AppContent>
     </div>
   );

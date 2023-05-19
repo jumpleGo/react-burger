@@ -3,9 +3,9 @@ import AppContentStyles from '../../styles/App/AppContent.module.css'
 
 function AppContent (props) {
     return (
-        <div className={AppContentStyles.appContent}>
+        <main className={AppContentStyles.appContent}>
             {props.children}
-        </div>
+        </main>
     )
 }
 

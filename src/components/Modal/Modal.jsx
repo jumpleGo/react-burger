@@ -1,44 +1,48 @@
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalStyles from '../../styles/Modal/Modal.module.css'
 import PropTypes from "prop-types";
-import {useEffect} from "react";
+import React, {useEffect} from "react";
+import ModalOverlay from "./ModalOverlay";
 
-function Modal({onClose, classes, title, children, isOpen}) {
+function Modal({onClose, classes, title, children}) {
     useEffect(() => {
         function handleEsc(event) {
-            if (event.keyCode === 27) {
+            if (event.key === 'Escape') {
                 onClose();
             }
         }
 
-        if (isOpen) {
             document.addEventListener("keydown", handleEsc);
-        }
 
         return () => {
             document.removeEventListener("keydown", handleEsc);
         };
-    }, [isOpen, onClose]);
+    }, [onClose]);
 
     return (
-        <div className={`${ModalStyles.modal} ${classes}`} >
-            {title &&
-                <div className={ModalStyles.modalHeader}>
-                    <h2 className="text text_type_main-large">{title}</h2>
+        <div className={ModalStyles.modalWrapper}>
+
+            <div className={`${ModalStyles.modal} ${classes}`} >
+                {title &&
+                    <div className={ModalStyles.modalHeader}>
+                        <h2 className="text text_type_main-large">{title}</h2>
+                    </div>
+                }
+                <div onClick={() => onClose()} className={ModalStyles.close}>
+                    <CloseIcon type="primary" />
                 </div>
-            }
-            <div onClick={() => onClose()} className={ModalStyles.close}>
-                <CloseIcon type="primary" />
+                <ModalOverlay onClose={() => onClose()} />
+                {children}
             </div>
-            {children}
         </div>
+
     );
 }
 
 Modal.propTypes = {
     onClose: PropTypes.func.isRequired,
     children: PropTypes.node,
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     classes: PropTypes.string.isRequired
 }
 export default Modal

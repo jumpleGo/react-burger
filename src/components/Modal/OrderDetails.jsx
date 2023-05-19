@@ -1,9 +1,13 @@
 import OrderDetailsStyles from '../../styles/Modal/OrderDetails.module.css'
-function OrderDetails () {
+import PropTypes from "prop-types";
+import {OrderItemPropsType} from "../../helpers/propsTypes/OrderItem";
+
+function OrderDetails ({order}) {
+    console.log(order)
     return (
         <div className={OrderDetailsStyles.wrapper}>
             <h2 className="text text_type_digits-large mb-8">
-                034536
+                {order.order.number}
             </h2>
             <p className="text text_type_main-medium mb-15">
                 идентификатор заказа
@@ -19,4 +23,7 @@ function OrderDetails () {
     )
 }
 
+OrderDetails.propTypes = {
+    order: PropTypes.shape(OrderItemPropsType).isRequired
+}
 export default OrderDetails
