@@ -35,6 +35,7 @@
 .burgerConstructor {
     height: 75vh;
     display: flex;
+    min-width: calc(40% - 20px);
     flex-flow: column;
     justify-content: space-between;
 }

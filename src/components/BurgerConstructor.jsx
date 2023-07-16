@@ -1,51 +1,72 @@
 import {ConstructorElement, CurrencyIcon, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import DragConstructorElementWrapper from "./DragConstructorElementWrapper";
 import BurgerConstructorStyles from '../styles/BurgerConstructor.module.css'
-import PropTypes from "prop-types";
-import {BurgerConstructorContext} from "../services/burgerConstructorContext";
-import {useContext, useEffect, useReducer, useState} from "react";
+
+import { useEffect, useReducer, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {order} from "../api/burgerApi";
+import {addIngredient, addOrder, removeIngredient, updateOrder} from "../services/actions/store";
+import {openModal} from "../services/actions/modal";
+import {DndProvider, useDrop} from "react-dnd";
+import {getBun, getFillings} from "../services/getters/store";
+import {HTML5Backend} from "react-dnd-html5-backend";
+
+
 
 function BurgerConstructor () {
-    const burgerConstructorCtx = useContext(BurgerConstructorContext);
-    const [bun, setBun] = useState({})
-    const [filling, setFilling] = useState([])
+    const dispatch  = useDispatch()
+    const [fillingIds, setFillingIds] = useState([])
+    const fillings = useSelector(getFillings)
+    const bun = useSelector(getBun)
+    const { burgerIngredients } = useSelector(state => state.storeReducer)
     const [totalPrice, setTotalPrice] = useState(0)
 
-    const initialState = {
-        ids: []
-    }
-    const reducer = (state, action) => {
-        const fillingIds = action?.reduce((acc, item) => {
+    const [, dropTarget] = useDrop({
+        accept: "ingredients",
+        drop(item) {
+            dispatch(addIngredient(item))
+        },
+    });
+
+    useEffect(() => {
+        console.log(fillings)
+        const ids = fillings?.reduce((acc, item) => {
             acc.push(item._id)
             return acc
         }, [])
-        return {
-            ids: [...fillingIds, bun._id, bun._id]
-        }
-    }
-    const [idValue, dispatch] = useReducer(reducer, initialState, undefined)
+        setFillingIds([...ids, bun?._id, bun?._id])
+    }, [fillings])
 
     useEffect(() => {
-        if (!burgerConstructorCtx.data?.length) return
-        const buns = burgerConstructorCtx.data.filter(item => item.type === 'bun')
-        const filling = burgerConstructorCtx.data.filter(item => item.type !== 'bun')
+        if (!burgerIngredients?.length) return
 
-        if(buns.length) setBun(buns[0])
-        if(filling.length) {
-            dispatch(filling)
-            setFilling(filling)
-        }
-        console.log(buns, filling)
-        const totalPrice = buns?.[0]?.price * 2 + filling?.reduce((acc, item) => {
+        const totalPrice = (bun?.[0]?.price || 0) * 2 + fillings?.reduce((acc, item) => {
             acc += item?.price
             return acc
         }, 0)
         setTotalPrice(totalPrice)
-    }, [burgerConstructorCtx.data])
+    }, [fillings])
+
+    const orderConfirm = async () => {
+        dispatch(addOrder(fillingIds))
+
+    }
+
+    const removeConstructorItem = (index) => {
+        dispatch(removeIngredient(index))
+    }
+
+    const [, drop] = useDrop(() => ({
+        accept: 'UPDATE_ORDER',
+        drop: (item) => {
+            return { index: burgerIngredients.length };
+        },
+    }));
+
     return (
-        <div className={`${BurgerConstructorStyles.burgerConstructor} mt-25`}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }} >
-                <ConstructorElement
+        <div ref={dropTarget} className={`${BurgerConstructorStyles.burgerConstructor} mt-25`}>
+            <div  style={{ display: 'flex', flexDirection: 'column', gap: '16px' }} >
+                {bun && <ConstructorElement
                     extraClass="ml-8"
                     type="top"
                     isLocked={true}
@@ -53,23 +74,27 @@ function BurgerConstructor () {
                     price={bun.price}
                     thumbnail={bun.image}
                 />
-                <div className={`${BurgerConstructorStyles.ingredients} pr-4`}>
-                    {
-                        filling?.map((item) => (
-                            <DragConstructorElementWrapper key={item._id}>
-                                <ConstructorElement
-                                    key={item._id}
-                                    extraClass="ml-1"
-                                    text={item.name}
-                                    price={item.price}
-                                    thumbnail={item.image}/>
-                            </DragConstructorElementWrapper>
-                        ))
-                    }
+                }
+                <DndProvider backend={HTML5Backend}>
+                    <div ref={drop} className={`${BurgerConstructorStyles.ingredients} pr-4`}>
 
-                </div>
+                        {
+                            fillings?.map((item, index) => (
+                                <DragConstructorElementWrapper key={`${item._id}-${index}`} index={index} item={item}>
+                                    <ConstructorElement
+                                        key={`${item._id}-${index}`}
+                                        extraClass="ml-1"
+                                        text={item.name}
+                                        price={item.price}
+                                        thumbnail={item.image}
+                                        handleClose={() => removeConstructorItem(index)}/>
+                                </DragConstructorElementWrapper>
+                            ))
+                        }
+                    </div>
+                </DndProvider>
 
-                <ConstructorElement
+                { bun && <ConstructorElement
                     extraClass="ml-8"
                     type="bottom"
                     isLocked={true}
@@ -77,13 +102,14 @@ function BurgerConstructor () {
                     price={bun.price}
                     thumbnail={bun.image}
                 />
+                }
             </div>
             <div className={`${BurgerConstructorStyles.total} mr-4 mt-10 mb-10`}>
                 <div className={BurgerConstructorStyles.totalPrice}>
                     <span className="text text_type_digits-medium">{totalPrice}</span>
                     <CurrencyIcon />
                 </div>
-                <Button type="primary" size="large" htmlType="button" extraClass="ml-10" onClick={() => burgerConstructorCtx.orderConfirm(idValue.ids)}>
+                <Button type="primary" size="large" htmlType="button" extraClass="ml-10" onClick={() => orderConfirm()} disabled={!bun}>
                     Оформить заказ
                 </Button>
             </div>

@@ -3,12 +3,20 @@ import ModalStyles from '../../styles/Modal/Modal.module.css'
 import PropTypes from "prop-types";
 import React, {useEffect} from "react";
 import ModalOverlay from "./ModalOverlay";
+import {closeModal} from "../../services/actions/modal";
+import {useDispatch} from "react-redux";
+import {cleanModalData} from "../../services/actions/store";
 
-function Modal({onClose, classes, title, children}) {
+function Modal({ classes, title, children}) {
+    const dispatch  = useDispatch()
+    const close = () => {
+        dispatch(closeModal())
+        dispatch(cleanModalData())
+    }
     useEffect(() => {
         function handleEsc(event) {
             if (event.key === 'Escape') {
-                onClose();
+                close();
             }
         }
 
@@ -17,7 +25,7 @@ function Modal({onClose, classes, title, children}) {
         return () => {
             document.removeEventListener("keydown", handleEsc);
         };
-    }, [onClose]);
+    }, []);
 
     return (
         <div className={ModalStyles.modalWrapper}>
@@ -28,10 +36,10 @@ function Modal({onClose, classes, title, children}) {
                         <h2 className="text text_type_main-large">{title}</h2>
                     </div>
                 }
-                <div onClick={() => onClose()} className={ModalStyles.close}>
+                <div onClick={() => close()} className={ModalStyles.close}>
                     <CloseIcon type="primary" />
                 </div>
-                <ModalOverlay onClose={() => onClose()} />
+                <ModalOverlay onClose={() => close()} />
                 {children}
             </div>
         </div>
@@ -40,7 +48,6 @@ function Modal({onClose, classes, title, children}) {
 }
 
 Modal.propTypes = {
-    onClose: PropTypes.func.isRequired,
     children: PropTypes.node,
     title: PropTypes.string,
     classes: PropTypes.string.isRequired
