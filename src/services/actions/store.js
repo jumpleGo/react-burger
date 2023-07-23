@@ -6,6 +6,7 @@ export const GET_INGREDIENTS_SUCCESS =  'GET_INGREDIENTS_SUCCESS'
 
 export const ADD_INGREDIENT = 'ADD_INGREDIENT'
 export const REMOVE_INGREDIENT = 'REMOVE_INGREDIENT'
+export const CLEAR_INGREDIENTS = 'CLEAR_INGREDIENTS'
 
 export const ADD_MODAL_INGREDIENT = 'ADD_MODAL_INGREDIENT'
 export const ADD_ORDER = 'ADD_ORDER'
@@ -22,7 +23,7 @@ export const getIngredients = () => {
                 type: GET_INGREDIENTS_SUCCESS,
                 payload: data.data
             })
-        })
+        }).catch((err) => console.log(err))
     }
 }
 
@@ -48,6 +49,12 @@ export  const removeIngredient = (index) => {
     }
 }
 
+export const clearIngredients = () => {
+    return {
+        type: CLEAR_INGREDIENTS,
+    }
+}
+
 export const addModalIngredient = (data) => {
     return {
         type: ADD_MODAL_INGREDIENT,
@@ -70,7 +77,7 @@ export const addOrder = (ids) => {
             dispatch({
                 type: OPEN_MODAL
             })
-        })
+        }).catch((err) => console.log(err))
     }
 }
 

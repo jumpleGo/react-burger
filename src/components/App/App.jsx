@@ -7,13 +7,13 @@ import BurgerConstructor from "../BurgerConstructor";
 import OrderDetails from "../Modal/OrderDetails"
 import IngredientDetails from "../Modal/IngredientDetails";
 import Modal from "../Modal/Modal";
-import {fetchData} from "../../api/burgerApi";
-import ReactDOM from "react-dom";
+
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
-import { getIngredients} from "../../services/actions/store";
+import {cleanModalData, getIngredients} from "../../services/actions/store";
 import {useDispatch, useSelector} from "react-redux";
+import {closeModal} from "../../services/actions/modal";
 
 
 
@@ -30,14 +30,20 @@ function App() {
       dispatch(getIngredients())
   }, [])
 
-  const element = document.getElementById("modal-root")
+    const close = () => {
+        dispatch(closeModal())
+        dispatch(cleanModalData())
+    }
+
+
   return (
     <div className={`${AppStyles.App}`}>
-        { ReactDOM.createPortal(
+        {
             (isOpen &&
                  <Modal
                      title={modalData.type === 'ingredient' ? 'Детали ингридиента' : ''}
-                     classes={modalData.classes}>
+                     classes={modalData.classes}
+                 close={close}>
                     <>
                         { modalData.type === 'ingredient'
                             ? <IngredientDetails ingredient={modalData.content}/>
@@ -45,9 +51,7 @@ function App() {
                         }
 
                     </>
-                </Modal>),
-            element
-            )
+                </Modal>)
         }
       <AppHeader />
       <AppContent>

@@ -3,16 +3,13 @@ import ModalStyles from '../../styles/Modal/Modal.module.css'
 import PropTypes from "prop-types";
 import React, {useEffect} from "react";
 import ModalOverlay from "./ModalOverlay";
-import {closeModal} from "../../services/actions/modal";
 import {useDispatch} from "react-redux";
-import {cleanModalData} from "../../services/actions/store";
 
-function Modal({ classes, title, children}) {
+import ReactDOM from "react-dom";
+
+function Modal({ classes, title, children, close}) {
     const dispatch  = useDispatch()
-    const close = () => {
-        dispatch(closeModal())
-        dispatch(cleanModalData())
-    }
+
     useEffect(() => {
         function handleEsc(event) {
             if (event.key === 'Escape') {
@@ -27,7 +24,10 @@ function Modal({ classes, title, children}) {
         };
     }, []);
 
+    const element = document.getElementById("modal-root")
+
     return (
+        ReactDOM.createPortal(
         <div className={ModalStyles.modalWrapper}>
 
             <div className={`${ModalStyles.modal} ${classes}`} >
@@ -42,7 +42,9 @@ function Modal({ classes, title, children}) {
                 <ModalOverlay onClose={() => close()} />
                 {children}
             </div>
-        </div>
+        </div>,
+            element
+        )
 
     );
 }

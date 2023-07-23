@@ -4,12 +4,10 @@ import BurgerConstructorStyles from '../styles/BurgerConstructor.module.css'
 
 import { useEffect, useReducer, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {order} from "../api/burgerApi";
-import {addIngredient, addOrder, removeIngredient, updateOrder} from "../services/actions/store";
-import {openModal} from "../services/actions/modal";
+import {addIngredient, addOrder, clearIngredients, removeIngredient, updateOrder} from "../services/actions/store";
 import {DndProvider, useDrop} from "react-dnd";
 import {getBun, getFillings} from "../services/getters/store";
-import {HTML5Backend} from "react-dnd-html5-backend";
+import { v4 as uuidv4 } from 'uuid';
 
 
 
@@ -24,12 +22,12 @@ function BurgerConstructor () {
     const [, dropTarget] = useDrop({
         accept: "ingredients",
         drop(item) {
-            dispatch(addIngredient(item))
+            const id = uuidv4()
+            dispatch(addIngredient({...item, uniqueId: id}))
         },
     });
 
     useEffect(() => {
-        console.log(fillings)
         const ids = fillings?.reduce((acc, item) => {
             acc.push(item._id)
             return acc
@@ -40,15 +38,17 @@ function BurgerConstructor () {
     useEffect(() => {
         if (!burgerIngredients?.length) return
 
-        const totalPrice = (bun?.[0]?.price || 0) * 2 + fillings?.reduce((acc, item) => {
+        const totalPrice = (bun?.price || 0) * 2 + fillings?.reduce((acc, item) => {
             acc += item?.price
             return acc
         }, 0)
         setTotalPrice(totalPrice)
-    }, [fillings])
+    }, [fillings, bun])
 
     const orderConfirm = async () => {
-        dispatch(addOrder(fillingIds))
+        await dispatch(addOrder(fillingIds))
+        dispatch(clearIngredients())
+
 
     }
 
@@ -65,7 +65,7 @@ function BurgerConstructor () {
 
     return (
         <div ref={dropTarget} className={`${BurgerConstructorStyles.burgerConstructor} mt-25`}>
-            <div  style={{ display: 'flex', flexDirection: 'column', gap: '16px' }} >
+            <div className={BurgerConstructorStyles.wrapper} >
                 {bun && <ConstructorElement
                     extraClass="ml-8"
                     type="top"
@@ -75,14 +75,14 @@ function BurgerConstructor () {
                     thumbnail={bun.image}
                 />
                 }
-                <DndProvider backend={HTML5Backend}>
+
                     <div ref={drop} className={`${BurgerConstructorStyles.ingredients} pr-4`}>
 
                         {
                             fillings?.map((item, index) => (
-                                <DragConstructorElementWrapper key={`${item._id}-${index}`} index={index} item={item}>
+                                <DragConstructorElementWrapper key={item.uniqueId} index={index} item={item}>
                                     <ConstructorElement
-                                        key={`${item._id}-${index}`}
+                                        key={item.uniqueId}
                                         extraClass="ml-1"
                                         text={item.name}
                                         price={item.price}
@@ -92,7 +92,7 @@ function BurgerConstructor () {
                             ))
                         }
                     </div>
-                </DndProvider>
+
 
                 { bun && <ConstructorElement
                     extraClass="ml-8"

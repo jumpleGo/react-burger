@@ -57,6 +57,11 @@ export const storeReducer = (state = initialState, action) => {
                     order: {},
                     currentIngredient: {}
                 }
+        case 'CLEAR_INGREDIENTS':
+            return {
+                ...state,
+                burgerIngredients: []
+            }
         default:
             return state
     }
