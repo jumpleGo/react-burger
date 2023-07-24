@@ -82,7 +82,6 @@ function BurgerConstructor () {
                             fillings?.map((item, index) => (
                                 <DragConstructorElementWrapper key={item.uniqueId} index={index} item={item}>
                                     <ConstructorElement
-                                        key={item.uniqueId}
                                         extraClass="ml-1"
                                         text={item.name}
                                         price={item.price}

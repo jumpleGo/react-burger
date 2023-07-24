@@ -39,7 +39,7 @@ function Modal({ classes, title, children, close}) {
                 <div onClick={() => close()} className={ModalStyles.close}>
                     <CloseIcon type="primary" />
                 </div>
-                <ModalOverlay onClose={() => close()} />
+                <ModalOverlay onClose={close} />
                 {children}
             </div>
         </div>,
