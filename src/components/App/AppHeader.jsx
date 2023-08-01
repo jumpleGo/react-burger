@@ -3,7 +3,7 @@ import AppHeaderStyles from '../../styles/App/AppHeader.module.css'
 import {Logo, BurgerIcon, ListIcon, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 function AppHeader () {
     return (
-        <div className={`${AppHeaderStyles.appHeader} pt-4 pb-4`}>
+        <header className={`${AppHeaderStyles.appHeader} pt-4 pb-4`}>
             <div>
                 <div className={AppHeaderStyles.appHeaderButtons}>
                     <HeaderButton active>
@@ -27,7 +27,7 @@ function AppHeader () {
                     <span>Личный кабинет</span>
                 </>
             </HeaderButton>
-        </div>
+        </header>
     )
 }
 

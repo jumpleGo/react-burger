@@ -6,7 +6,11 @@
     max-height: 400px;
     height: 100%;
 }
-
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px
+}
 .total {
     display: flex;
     justify-content: flex-end;
@@ -35,6 +39,7 @@
 .burgerConstructor {
     height: 75vh;
     display: flex;
+    min-width: calc(30% - 20px);
     flex-flow: column;
     justify-content: space-between;
 }
