@@ -15,7 +15,17 @@ const getBun = (state) => {
     return burgerIngredients.filter(item => item.type === 'bun')?.[0];
 }
 
+const  getIngredientById = (state, id) => {
+    console.log(id)
+    const {
+        ingredients
+    } = state.storeReducer;
+
+    return ingredients.find(item => item._id === id)
+}
+
 export {
     getFillings,
-    getBun
+    getBun,
+    getIngredientById
 };

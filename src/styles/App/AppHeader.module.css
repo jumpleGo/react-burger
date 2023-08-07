@@ -8,3 +8,6 @@
     display: flex;
     gap: 8px
 }
+.logo {
+    margin-left: -180px;
+}

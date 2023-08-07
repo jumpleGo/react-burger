@@ -8,6 +8,8 @@ import {addIngredient, addOrder, clearIngredients, removeIngredient, updateOrder
 import {DndProvider, useDrop} from "react-dnd";
 import {getBun, getFillings} from "../services/getters/store";
 import { v4 as uuidv4 } from 'uuid';
+import {getCookie} from "../services/utils/cookie";
+import {useNavigate} from "react-router-dom";
 
 
 
@@ -18,6 +20,7 @@ function BurgerConstructor () {
     const bun = useSelector(getBun)
     const { burgerIngredients } = useSelector(state => state.storeReducer)
     const [totalPrice, setTotalPrice] = useState(0)
+    const navigate = useNavigate()
 
     const [, dropTarget] = useDrop({
         accept: "ingredients",
@@ -46,6 +49,10 @@ function BurgerConstructor () {
     }, [fillings, bun])
 
     const orderConfirm = async () => {
+        if (!getCookie('token')) {
+            navigate(`/login/?preorder=true`)
+            return
+        }
         await dispatch(addOrder(fillingIds))
         dispatch(clearIngredients())
 

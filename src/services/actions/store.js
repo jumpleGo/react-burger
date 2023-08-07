@@ -1,5 +1,5 @@
 import {fetchData, order} from "../../api/burgerApi";
-import {OPEN_MODAL} from "./modal";
+
 
 export const GET_INGREDIENTS = 'GET_INGREDIENTS'
 export const GET_INGREDIENTS_SUCCESS =  'GET_INGREDIENTS_SUCCESS'
@@ -72,10 +72,6 @@ export const addOrder = (ids) => {
                     type: 'order',
                     classes: 'pt-30 pl-10 pr-10 pb-30'
                 }
-            })
-
-            dispatch({
-                type: OPEN_MODAL
             })
         }).catch((err) => console.log(err))
     }

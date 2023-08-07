@@ -1,3 +1,5 @@
+import {getCookie} from "../services/utils/cookie";
+
 const API_URL = 'https://norma.nomoreparties.space/api/'
 
 const request = (path, options) => {
@@ -11,8 +13,21 @@ const resolver = (res) => {
         : res.json().then((err) => Promise.reject(err))
 }
 
-const get = (path) => {
-    return request(path)
+const get = (path, body) => {
+    const options = {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `${getCookie('token')}`
+        },
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer',
+    }
+    if (body) options.body = body
+    return request(path, options)
 }
 
 const post = (path, payload) => {
@@ -25,7 +40,24 @@ const post = (path, payload) => {
     })
 }
 
+const patch = (path, payload) => {
+    return request(path, {
+        method: 'PATCH',
+        body: JSON.stringify(payload),
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': `${getCookie('token')}`
+        },
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer',
+    })
+}
+
 export {
     get,
-    post
+    post,
+    patch
 }

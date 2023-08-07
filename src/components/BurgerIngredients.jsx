@@ -8,22 +8,30 @@ import BurgerIngredientItem from "./BurgerIngredientItem";
 import {useSelector, useDispatch} from "react-redux";
 import { addModalIngredient } from "../services/actions/store";
 
-import {openModal} from "../services/actions/modal";
+
+import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {getIngredientById} from "../services/getters/store";
 
 
 function BurgerIngredients () {
     const dispatch  = useDispatch()
+    const location = useLocation()
+
+
+
     const { ingredients, burgerIngredients } = useSelector((state) => state.storeReducer)
 
     const [state, setState] = useState({
         ingredientsByType: [],
         listItemsTemplate: [],
     })
+
     const [tabs, setTabs] = useState([])
     const [sortedIngredients, setSortedIngredients] = useState({})
 
-    const [activeType, setActiveType] = useState('bun'); // Track the active type
-    const typeRefs = useRef({}); // Ref to store references to type elements
+    const [activeType, setActiveType] = useState('bun');
+    const typeRefs = useRef({});
+    const navigate = useNavigate()
 
     const updateTypeRef = useCallback((type, element) => {
         typeRefs.current[type] = element;
@@ -116,12 +124,15 @@ function BurgerIngredients () {
 
 
     const openModalIngredient = (content) => {
+
+
         dispatch(addModalIngredient({
             content,
             type: 'ingredient',
             classes: 'pt-10 pl-10 pr-10 pb-15'
         }))
-        dispatch(openModal())
+        navigate(`/ingredients/${content._id}`, { state: { backgroundLocation: location,
+            id: content._id}});
     }
 
     const getCountById = (id) => {

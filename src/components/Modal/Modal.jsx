@@ -6,9 +6,14 @@ import ModalOverlay from "./ModalOverlay";
 import {useDispatch} from "react-redux";
 
 import ReactDOM from "react-dom";
+import {useNavigate} from "react-router-dom";
 
 function Modal({ classes, title, children, close}) {
-    const dispatch  = useDispatch()
+    const navigate = useNavigate()
+    const closeModal = () => {
+        navigate('/')
+        close()
+    }
 
     useEffect(() => {
         function handleEsc(event) {
@@ -36,10 +41,10 @@ function Modal({ classes, title, children, close}) {
                         <h2 className="text text_type_main-large">{title}</h2>
                     </div>
                 }
-                <div onClick={() => close()} className={ModalStyles.close}>
+                <div onClick={closeModal} className={ModalStyles.close}>
                     <CloseIcon type="primary" />
                 </div>
-                <ModalOverlay onClose={close} />
+                <ModalOverlay onClose={closeModal} />
                 {children}
             </div>
         </div>,
