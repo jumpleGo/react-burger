@@ -8,10 +8,12 @@ import {useDispatch} from "react-redux";
 import ReactDOM from "react-dom";
 import {useNavigate} from "react-router-dom";
 
-function Modal({ classes, title, children, close}) {
+function Modal({ classes, title, children, close, isRouteModal}) {
     const navigate = useNavigate()
     const closeModal = () => {
-        navigate('/')
+        if (isRouteModal) {
+            navigate(-1)
+        }
         close()
     }
 
