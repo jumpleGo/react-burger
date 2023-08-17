@@ -1,0 +1,20 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.title {
+    font-size: 180px;
+    font-weight: bold;
+    line-height: 0.9;
+    color: white
+}
+.subtitle {
+    font-size: 48px;
+    font-weight: bold;
+    color: white
+}
+.link {
+    font-size: 20px;
+    color: white;
+}

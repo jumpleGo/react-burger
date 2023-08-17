@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import {OrderItemPropsType} from "../../helpers/propsTypes/OrderItem";
 
 function OrderDetails ({order}) {
-    console.log(order)
     return (
         <div className={OrderDetailsStyles.wrapper}>
             <h2 className="text text_type_digits-large mb-8">

@@ -1,18 +1,18 @@
 import {CLOSE_MODAL, OPEN_MODAL} from "../actions/modal";
 
 const initialState = {
-    isOpen: false
+    isModalOpen: false
 }
 
 export const modalReducer = (state = initialState, action) => {
     switch (action.type) {
         case OPEN_MODAL:
             return {
-                isOpen: true,
+                isModalOpen: true,
             }
         case CLOSE_MODAL:
             return {
-                isOpen: false,
+                isModalOpen: false,
             }
         default:
             return state
