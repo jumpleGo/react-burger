@@ -8,14 +8,15 @@ import {
   token,
   userRequest,
 } from "../api/auth";
+import { UserData } from "../api/types";
 
 const clearCookie = () => {
   setCookie("token", "");
   setCookie("refreshToken", "");
 };
 
-const AuthContext: React.Context<IUseProvideAuth | undefined> = createContext<
-  IUseProvideAuth | undefined
+const AuthContext: React.Context<IUserProvideAuth | undefined> = createContext<
+  IUserProvideAuth | undefined
 >(undefined);
 
 interface ProvideAuthProps {
@@ -36,15 +37,15 @@ export function useAuth() {
   return context;
 }
 
-interface IUseProvideAuth {
-  user: any;
+interface IUserProvideAuth {
+  user: UserData | null;
   getUser: () => Promise<boolean>;
   register: (form: any) => Promise<void>;
   login: (form: any) => Promise<void>;
   logout: () => Promise<void>;
 }
-export function useProvideAuth(): IUseProvideAuth {
-  const [user, setUser] = useState<any>(null); // Replace with appropriate user type
+export function useProvideAuth(): IUserProvideAuth {
+  const [user, setUser] = useState<UserData | null>(null); // Replace with appropriate user type
 
   const errorHandler = (error: Error) => {
     if (error.message === "jwt expired") {

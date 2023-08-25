@@ -12,9 +12,9 @@ interface FormData {
 const ProfileSettings: React.FC = () => {
   const { user, ...auth } = useAuth();
   const [formData, setFormData] = useState<FormData>({
-    email: user.email,
+    email: user?.email || "",
     password: "",
-    name: user.name,
+    name: user?.name || "",
   });
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {

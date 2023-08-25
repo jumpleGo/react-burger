@@ -5,9 +5,9 @@ type ResponseBody<T> = {
   data: T;
 };
 export const fetchData = (): Promise<ResponseBody<IBurgerIngredientItem[]>> => {
-  return get("ingredients");
+  return get<ResponseBody<IBurgerIngredientItem[]>>("ingredients");
 };
 
 export const order = (orderArr: { ingredients: string[] }): Promise<IOrder> => {
-  return post("orders", orderArr);
+  return post<IOrder>("orders", orderArr);
 };

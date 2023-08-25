@@ -2,18 +2,19 @@ import { getCookie } from "../services/utils/cookie";
 
 const API_URL = "https://norma.nomoreparties.space/api/";
 
-const request = (path: string, options: RequestInit): Promise<any> => {
+const request = <T>(path: string, options: RequestInit): Promise<T> => {
   const url = API_URL + path;
+  // @ts-ignore
   return fetch(url, options).then(resolver);
 };
 
-const resolver = (res: Response): Promise<any> => {
+const resolver = <T>(res: Response): Promise<T> => {
   return res.ok
     ? res.json().then((data) => Promise.resolve(data))
     : res.json().then((err) => Promise.reject(err));
 };
 
-const get = (path: string, body?: any): Promise<any> => {
+const get = <T>(path: string, body?: any): Promise<T> => {
   const options: RequestInit = {
     method: "GET",
     mode: "cors",
@@ -27,11 +28,11 @@ const get = (path: string, body?: any): Promise<any> => {
     referrerPolicy: "no-referrer",
   };
   if (body) options.body = JSON.stringify(body);
-  return request(path, options);
+  return request<T>(path, options);
 };
 
-const post = (path: string, payload: any): Promise<any> => {
-  return request(path, {
+const post = <T>(path: string, payload: any): Promise<T> => {
+  return request<T>(path, {
     method: "POST",
     body: JSON.stringify(payload),
     headers: {
@@ -40,8 +41,8 @@ const post = (path: string, payload: any): Promise<any> => {
   });
 };
 
-const patch = (path: string, payload: any): Promise<any> => {
-  return request(path, {
+const patch = <T>(path: string, payload: any): Promise<T> => {
+  return request<T>(path, {
     method: "PATCH",
     body: JSON.stringify(payload),
     mode: "cors",

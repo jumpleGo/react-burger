@@ -2,6 +2,7 @@ export interface UserData {
   _id: string;
   email: string;
   name: string;
+  id?: string;
 }
 export type ApiDataResponse = {
   data: any;
@@ -12,7 +13,7 @@ export interface ApiUserResponse {
   success: boolean;
   user: UserData;
 }
-export interface ApiLogoutResponse {
+export interface ApiEmptyResponse {
   success: boolean;
   message: string;
 }
@@ -36,4 +37,9 @@ export interface IOrder {
   order: {
     number: number;
   };
+}
+
+export interface ITokenUpdate {
+  accessToken: string;
+  refreshToken: string;
 }
