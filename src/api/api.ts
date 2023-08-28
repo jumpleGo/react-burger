@@ -4,8 +4,8 @@ const API_URL = "https://norma.nomoreparties.space/api/";
 
 const request = <T>(path: string, options: RequestInit): Promise<T> => {
   const url = API_URL + path;
-  // @ts-ignore
-  return fetch(url, options).then(resolver);
+
+  return fetch(url, options).then((res) => resolver<T>(res));
 };
 
 const resolver = <T>(res: Response): Promise<T> => {
