@@ -9,11 +9,12 @@ import ForgotPasswordStyles from "../styles/pages/ForgotPasswordStyles.module.cs
 import LoginStyles from "../styles/pages/Login.module.css";
 import { getCookie } from "../services/utils/cookie";
 
-function ForgotPassword() {
-  const [email, setEmail] = useState("");
+const ForgotPassword: React.FC = () => {
+  const [email, setEmail] = useState<string>("");
   const navigate = useNavigate();
   const location = useLocation();
-  const submit = (e) => {
+
+  const submit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     forgotPasswordRequest({ email })
       .then(() => navigate("/reset-password", { state: { from: location } }))
@@ -22,14 +23,14 @@ function ForgotPassword() {
 
   useEffect(() => {
     if (getCookie("token")) navigate("/profile");
-  }, []);
+  }, [navigate]);
 
   return (
     <main className={ForgotPasswordStyles.wrapper}>
       <h1 className="text text_type_main-medium mb-6">Восстановление пароля</h1>
       <form onSubmit={submit}>
         <EmailInput value={email} onChange={(e) => setEmail(e.target.value)} />
-        <Button size="large" htmlType={"submit"} extraClass={"mt-6"}>
+        <Button size="large" htmlType="submit" className={"mt-6"}>
           Восстановить
         </Button>
       </form>
@@ -41,6 +42,6 @@ function ForgotPassword() {
       </div>
     </main>
   );
-}
+};
 
 export default ForgotPassword;

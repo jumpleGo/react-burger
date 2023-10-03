@@ -7,7 +7,10 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { setCookie } from "../services/utils/cookie";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
-function Profile() {
+
+interface ProfileProps {}
+
+const Profile: React.FC<ProfileProps> = () => {
   const { logout, ...auth } = useAuth();
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -20,25 +23,27 @@ function Profile() {
       console.log(err);
     }
   };
+
   return (
     <main className={ProfileStyles.wrapper}>
       <div className={ProfileStyles.links}>
         <NavLink
           className={`${ProfileStyles.link} ${ProfileStyles.active} text_type_main-medium`}
+          to="/profile"
         >
           Профиль
         </NavLink>
         <NavLink
           className={`${ProfileStyles.link} text_type_main-medium`}
-          type={"secondary"}
+          to="/order-history"
         >
           История заказов
         </NavLink>
         <Button
           onClick={logoutCall}
           extraClass={`${ProfileStyles.link} text_type_main-medium`}
-          type={"secondary"}
-          htmlType={"button"}
+          type="secondary"
+          htmlType="button"
         >
           Выход
         </Button>
@@ -53,6 +58,6 @@ function Profile() {
       </div>
     </main>
   );
-}
+};
 
 export default Profile;

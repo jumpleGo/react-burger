@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import {
   Input,
   EmailInput,
@@ -10,9 +10,11 @@ import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { getCookie } from "../services/utils/cookie";
 
-function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+interface LoginProps {}
+
+const Login: React.FC<LoginProps> = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -24,7 +26,8 @@ function Login() {
   }, []);
 
   const { login, ...auth } = useAuth();
-  const action = (e) => {
+
+  const handleLogin = (e: FormEvent) => {
     e.preventDefault();
 
     login({
@@ -37,21 +40,23 @@ function Login() {
       })
       .catch((err) => console.log(err));
   };
-  const onEmailChange = (e) => {
+
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
-  const onPasswordChange = (e) => {
+
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
 
   return (
     <main className={LoginStyles.wrapper}>
       <h1 className="text text_type_main-medium">Вход</h1>
-      <form onSubmit={action} className={LoginStyles.form}>
+      <form onSubmit={handleLogin} className={LoginStyles.form}>
         <EmailInput
           value={email}
           extraClass={"mt-6"}
-          onChange={onEmailChange}
+          onChange={handleEmailChange}
         />
         <Input
           value={password}
@@ -59,7 +64,7 @@ function Login() {
           type={"password"}
           placeholder={"Пароль"}
           icon={"ShowIcon"}
-          onChange={onPasswordChange}
+          onChange={handlePasswordChange}
         />
         <Button
           extraClass={"mt-6"}
@@ -86,6 +91,6 @@ function Login() {
       </div>
     </main>
   );
-}
+};
 
 export default Login;

@@ -1,23 +1,36 @@
-import PropTypes from "prop-types";
+import React from "react";
 import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import DragConstructorElementWrapperStyles from "../styles/DragConstructorElementWrapper.module.css";
-import { useDrag, useDrop } from "react-dnd";
+import { DragSourceMonitor, useDrag } from "react-dnd";
 import { useDispatch } from "react-redux";
-import { BurgerIngredientItemPropsType } from "../helpers/propsTypes/BurgerIngredientItem";
-import useDebouncedDrag from "../hooks/useDebounceDrag";
+import { IBurgerIngredientItem } from "../helpers/propsTypes/BurgerIngredientItem";
 import { updateOrder } from "../services/actions/store";
-function DragConstructorElementWrapper({ children, index, item }) {
+
+interface DragConstructorElementWrapperProps {
+  children: React.ReactNode;
+  index: number;
+  item: IBurgerIngredientItem;
+}
+
+function DragConstructorElementWrapper({
+  children,
+  index,
+  item,
+}: DragConstructorElementWrapperProps) {
   const dispatch = useDispatch();
 
   const [, drag] = useDrag(() => ({
     type: "LIST_ITEM",
     item: { index },
     end: (item, monitor) => {
-      // Get the dragged item index and the drop result index
       const draggedIndex = index;
-      const dropResult = monitor.getDropResult();
+      const dropResult: { index: number } | null = monitor.getDropResult();
 
-      const endIndex = dropResult;
+      if (!dropResult) {
+        return;
+      }
+
+      const endIndex = dropResult.index;
 
       // Dispatch the action to move the item in the Redux store
       dispatch(updateOrder(draggedIndex, endIndex));
@@ -31,9 +44,5 @@ function DragConstructorElementWrapper({ children, index, item }) {
     </div>
   );
 }
-DragConstructorElementWrapper.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number,
-  item: PropTypes.shape(BurgerIngredientItemPropsType),
-};
+
 export default DragConstructorElementWrapper;

@@ -10,12 +10,15 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import ResetPasswordStyles from "../styles/pages/ResetPassword.module.css";
 import { getCookie } from "../services/utils/cookie";
 
-function ResetPassword() {
+interface ResetPasswordProps {}
+
+const ResetPassword: React.FC<ResetPasswordProps> = () => {
   const [password, setPassword] = useState("");
   const [code, setCode] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
-  const submit = (e) => {
+
+  const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     resetPasswordRequest({
       password,
@@ -61,6 +64,6 @@ function ResetPassword() {
       </div>
     </main>
   );
-}
+};
 
 export default ResetPassword;

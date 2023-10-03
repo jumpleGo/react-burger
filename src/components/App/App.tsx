@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { Dispatch, useEffect } from "react";
 import AppStyles from "../../styles/App/App.module.css";
 import AppHeader from "./AppHeader";
 
@@ -13,13 +13,7 @@ import {
 } from "../../services/actions/store";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  useLocation,
-  useParams,
-} from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Main from "../../pages/Main";
 import NotFound from "../../pages/NotFound";
 import Login from "../../pages/Login";
@@ -33,15 +27,16 @@ import ResetPassword from "../../pages/ResetPassword";
 import IngredientDetailsPage from "../../pages/IngredientDetailsPage";
 import { getIngredientById } from "../../services/getters/store";
 import { closeModal } from "../../services/actions/modal";
+import { AnyAction } from "redux";
 
 function App() {
-  const dispatch = useDispatch();
+  const dispatch: Dispatch<any> = useDispatch();
   let location = useLocation();
   const { state: routeState } = location;
   const itemById = useSelector((state) =>
     getIngredientById(state, routeState?.id),
   );
-  const { isModalOpen } = useSelector((store) => store.modalReducer);
+  const { isModalOpen } = useSelector((store: any) => store.modalReducer);
   useEffect(() => {
     if (itemById) {
       dispatch(
@@ -56,9 +51,9 @@ function App() {
 
   const { modalData } = useSelector((store) => {
     return {
-      modalData: store.storeReducer.currentIngredient.content
-        ? store.storeReducer.currentIngredient
-        : store.storeReducer.order,
+      modalData: (store as any).storeReducer.currentIngredient.content
+        ? (store as any).storeReducer.currentIngredient
+        : (store as any).storeReducer.order,
     };
   });
 
