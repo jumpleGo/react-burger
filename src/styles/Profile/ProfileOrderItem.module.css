@@ -1,0 +1,8 @@
+.orders {
+    display: flex;
+    flex-direction: column;
+    row-gap: 24px;
+    height: fit-content;
+    max-height: calc(100vh - 250px);
+    overflow-y: scroll;
+}

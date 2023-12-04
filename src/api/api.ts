@@ -22,7 +22,7 @@ const get = <T>(path: string, body?: any): Promise<T> => {
     credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `${getCookie("token")}`,
+      Authorization: `${getCookie("token") || ""}`,
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
@@ -37,6 +37,7 @@ const post = <T>(path: string, payload: any): Promise<T> => {
     body: JSON.stringify(payload),
     headers: {
       "Content-Type": "application/json",
+      Authorization: `${getCookie("token")}`,
     },
   });
 };

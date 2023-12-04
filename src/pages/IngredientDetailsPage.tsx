@@ -9,10 +9,10 @@ import IngredientDetailsPageStyles from "../styles/pages/IngredientDetailsPage.m
 interface IngredientDetailsPageProps {}
 
 const IngredientDetailsPage: React.FC<IngredientDetailsPageProps> = () => {
-  const { id } = useParams<{ id: string }>(); // Specify the type of 'id' as string
-  const [itemIsLoading, setIsLoading] = useState<boolean>(true); // Specify the type of 'itemIsLoading' as boolean
+  const { id } = useParams<{ id: string }>();
+  const [itemIsLoading, setIsLoading] = useState<boolean>(true);
 
-  const item = useSelector((state: any) => getIngredientById(state, id)); // Specify RootState type
+  const item = useSelector((state: any) => getIngredientById(state, id));
   const location = useLocation();
 
   useEffect(() => {

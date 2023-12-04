@@ -28,6 +28,10 @@ import IngredientDetailsPage from "../../pages/IngredientDetailsPage";
 import { getIngredientById } from "../../services/getters/store";
 import { closeModal } from "../../services/actions/modal";
 import { AnyAction } from "redux";
+import Feed from "../../pages/Feed";
+import FeedItem from "../../pages/FeedItem";
+import ProfileOrders from "../../pages/Profile/ProfileOrders";
+import ProfileOrderItem from "../../pages/Profile/ProfileOrderItem";
 
 function App() {
   const dispatch: Dispatch<any> = useDispatch();
@@ -79,14 +83,24 @@ function App() {
         )}
         <Routes location={routeState?.backgroundLocation || location}>
           <Route path="/" element={<Main />} />
+
+          <Route path="/feed" element={<Feed />} />
+          <Route path="/feed/:id" element={<FeedItem />} />
+
+          <Route path="/" element={<Main />} />
           <Route path="ingredients/:id" element={<IngredientDetailsPage />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route
-            path="/profile"
+            path="/profile/*"
             element={<ProtectedRouteElement element={<Profile />} />}
           />
+          <Route
+            path="/profile/orders/:id"
+            element={<ProtectedRouteElement element={<ProfileOrderItem />} />}
+          />
+
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
         </Routes>

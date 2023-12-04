@@ -1,0 +1,60 @@
+.feed {
+    display: flex;
+    margin: 40px 7%;
+    flex-direction: column;
+    justify-content: center;
+
+}
+.feed_title {
+    text-align: left;
+}
+.feed_orders {
+    height: 70vh;
+    overflow-y: scroll;
+    max-width: 600px;
+    width: 100%;
+    min-width: calc(30% - 20px);
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+}
+.feed_order_numbers {
+    height: 70vh;
+    max-width: 600px;
+    width: 100%;
+    min-width: calc(30% - 20px);
+}
+.content {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    column-gap: 60px;
+}
+.feed_orders_list {
+    display: flex;
+    justify-content: space-between;
+}
+.ready, .in_work {
+    display: flex;
+    flex-direction: column;
+    max-width: calc(50% - 20px);
+}
+.digits_list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 8px;
+}
+.green_digit {
+    color: #00CCCC
+}
+.all_orders, .today_orders {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.ordersList {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 10px;
+}
