@@ -38,7 +38,6 @@ export const socketMiddleware = (
     let reconnectTimer = 0;
     let url = "";
     return (next) => (action) => {
-      console.log(action);
       const { dispatch } = store;
       const {
         wsConnecting,
@@ -71,7 +70,6 @@ export const socketMiddleware = (
 
         // функция, которая вызывается при получения события от сервера
         socket.onmessage = (event) => {
-          console.log(event);
           const { data } = event;
           const parsedData = JSON.parse(data);
           dispatch(onMessage(parsedData));
@@ -91,7 +89,6 @@ export const socketMiddleware = (
         };
 
         if (wsConnect.match(wsSendMessage)) {
-          console.log(action);
           const payload = action.payload;
           const message = { ...payload };
           // функция для отправки сообщения на сервер
