@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import FeedStyles from "../styles/pages/Feed.module.css";
 import FeedCard from "../components/Profile/FeedCard";
 import { useDispatch, useSelector } from "react-redux";
-import { wsConnect } from "../services/actions/socket";
-import { wsUrlAllOrders } from "../services/store";
+import { wsConnect, wsDisconnect } from "../services/actions/socket";
+import { RootState, wsUrlAllOrders } from "../services/store";
 
 import { getByStatus } from "../services/getters/allOrders";
 
@@ -11,20 +11,33 @@ import { ISocketOrder } from "../services/types";
 import { useNavigate } from "react-router-dom";
 const Feed: React.FC = () => {
   const dispatch = useDispatch();
-  const orders = useSelector((state: any) => state.wsReducer.orders);
-  const doneOrders = useSelector((state) => getByStatus(state, "done"));
+  const orders = useSelector((state: RootState) => state.wsReducer.orders);
+  const doneOrders = useSelector((state: RootState) =>
+    getByStatus(state, "done"),
+  );
   const navigate = useNavigate();
   const openRoute = (number: number) => {
     navigate(`/feed/${number}`);
   };
 
-  const pendingOrders = useSelector((state) => getByStatus(state, "pending"));
-  const connect = () => {
-    dispatch(wsConnect(wsUrlAllOrders));
-  };
+  const pendingOrders = useSelector((state: RootState) =>
+    getByStatus(state, "pending"),
+  );
+
   useEffect(() => {
-    connect();
+    dispatch(wsConnect(wsUrlAllOrders));
   }, [dispatch]);
+  useEffect(() => {
+    return () => {
+      dispatch(wsDisconnect());
+    };
+  }, [wsDisconnect, dispatch]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(wsDisconnect());
+    };
+  }, [wsDisconnect, dispatch]);
 
   return (
     <div className={FeedStyles.feed}>
@@ -33,7 +46,7 @@ const Feed: React.FC = () => {
       </h2>
       <div className={FeedStyles.content}>
         <div className={FeedStyles.feed_orders}>
-          {orders.orders &&
+          {orders?.orders &&
             orders.orders.length &&
             orders.orders.map((item: ISocketOrder, index: number) => {
               return (
@@ -108,14 +121,14 @@ const Feed: React.FC = () => {
             <div className="text text_type_main-medium">
               Выполнено за все время:
             </div>
-            <div className="text text_type_digits-large">{orders.total}</div>
+            <div className="text text_type_digits-large">{orders?.total}</div>
           </div>
           <div className={`${FeedStyles.today_orders} mt-15`}>
             <div className="text text_type_main-medium">
               Выполнено за сегодня:
             </div>
             <div className="text text_type_digits-large">
-              {orders.totalToday}
+              {orders?.totalToday}
             </div>
           </div>
         </div>

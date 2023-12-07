@@ -6,13 +6,14 @@ import { IOrder } from "../../api/types";
 import { ISocketOrder } from "../../services/types";
 import { useSelector } from "react-redux";
 import { getStatus } from "../../helpers/transcriptions";
+import { RootState } from "../../services/store";
 
 interface IOrderItemProps {
   data: ISocketOrder;
 }
 const OrderItem: React.FC<IOrderItemProps> = ({ data }) => {
   const ingredients: IBurgerIngredientItem[] = useSelector(
-    (state: any) => state.storeReducer.ingredients,
+    (state: RootState) => state.storeReducer.ingredients,
   );
   const [currentIngredients, setCurrentIngredients] = useState<
     Record<string, IBurgerIngredientItem[]>
@@ -20,7 +21,7 @@ const OrderItem: React.FC<IOrderItemProps> = ({ data }) => {
   const [ingredientsTotal, setIngredientsTotal] = useState<number>(0);
   useEffect(() => {
     const currIngredients: Record<string, IBurgerIngredientItem[]> =
-      data.ingredients.reduce((acc: Record<string, any>, itemId: string) => {
+      data.ingredients?.reduce((acc: Record<string, any>, itemId: string) => {
         const ingredient = ingredients.find((item) => item._id === itemId);
         if (!acc[itemId]) acc[itemId] = [ingredient];
         else acc[itemId].push(ingredient);

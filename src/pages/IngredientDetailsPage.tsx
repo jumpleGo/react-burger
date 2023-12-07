@@ -5,6 +5,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { getIngredientById } from "../services/getters/store";
 import IngredientDetails from "../components/Modal/IngredientDetails";
 import IngredientDetailsPageStyles from "../styles/pages/IngredientDetailsPage.module.css";
+import { RootState } from "../services/store";
 
 interface IngredientDetailsPageProps {}
 
@@ -12,7 +13,7 @@ const IngredientDetailsPage: React.FC<IngredientDetailsPageProps> = () => {
   const { id } = useParams<{ id: string }>();
   const [itemIsLoading, setIsLoading] = useState<boolean>(true);
 
-  const item = useSelector((state: any) => getIngredientById(state, id));
+  const item = useSelector((state: RootState) => getIngredientById(state, id));
   const location = useLocation();
 
   useEffect(() => {
@@ -23,7 +24,7 @@ const IngredientDetailsPage: React.FC<IngredientDetailsPageProps> = () => {
 
   return (
     <div className={IngredientDetailsPageStyles.wrapper}>
-      {!itemIsLoading ? (
+      {!itemIsLoading && item ? (
         <div className={"pt-30"}>
           <h1 className={"text_type_main-large"}>Детали ингредиента</h1>
           <IngredientDetails ingredient={item} />

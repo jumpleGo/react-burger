@@ -4,6 +4,7 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import { ISocketOrder } from "../../services/types";
 import { useSelector } from "react-redux";
 import { IBurgerIngredientItem } from "../../helpers/propsTypes/BurgerIngredientItem";
+import { RootState } from "../../services/store";
 interface FeedCardProps {
   data: ISocketOrder;
   onClick: (id?: string) => void;
@@ -11,7 +12,7 @@ interface FeedCardProps {
 const FeedCard: React.FC<FeedCardProps> = ({ data, onClick }) => {
   const getDate = (date: Date) => new Date(date).toDateString();
   const ingredients: IBurgerIngredientItem[] = useSelector(
-    (state: any) => state.storeReducer.ingredients,
+    (state: RootState) => state.storeReducer.ingredients,
   );
   const [currentIngredients, setCurrentIngredients] = useState<
     IBurgerIngredientItem[]

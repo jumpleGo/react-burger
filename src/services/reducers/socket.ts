@@ -6,22 +6,26 @@ import {
   TWSActionsType,
 } from "../actions/socket";
 import { IOrder } from "../../api/types";
+import { IResponseSocketMessage, ISocketOrder } from "../types";
 
 type TWSState = {
   wsConnected: boolean;
-  orders: Record<string, any>[];
-  error?: Event | undefined;
+  orders: IResponseSocketMessage | null;
+  error?: string | undefined;
   currentOrder: IOrder | undefined;
 };
 
 const initialState: TWSState = {
   wsConnected: false,
-  orders: [],
+  orders: null,
   error: undefined,
   currentOrder: undefined,
 };
 
-export const wsReducer = (state = initialState, action: TWSActionsType) => {
+export const wsReducer = (
+  state = initialState,
+  action: TWSActionsType,
+): TWSState => {
   switch (action.type) {
     case WS_CONNECT:
       return {

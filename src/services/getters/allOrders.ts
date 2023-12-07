@@ -1,6 +1,7 @@
 import { ISocketOrder, OrderStatus } from "../types";
+import { RootState } from "../store";
 
-const getByStatus = (state: any, status: OrderStatus) => {
+const getByStatus = (state: RootState, status: OrderStatus) => {
   const { orders } = state.wsReducer;
 
   let currentIdx = 0;

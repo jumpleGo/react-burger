@@ -32,15 +32,16 @@ import Feed from "../../pages/Feed";
 import FeedItem from "../../pages/FeedItem";
 import ProfileOrders from "../../pages/Profile/ProfileOrders";
 import ProfileOrderItem from "../../pages/Profile/ProfileOrderItem";
+import { RootState } from "../../services/store";
 
 function App() {
   const dispatch: Dispatch<any> = useDispatch();
   let location = useLocation();
   const { state: routeState } = location;
-  const itemById = useSelector((state) =>
+  const itemById = useSelector((state: RootState) =>
     getIngredientById(state, routeState?.id),
   );
-  const { isModalOpen } = useSelector((store: any) => store.modalReducer);
+  const { isModalOpen } = useSelector((store: RootState) => store.modalReducer);
   useEffect(() => {
     if (itemById) {
       dispatch(
@@ -53,7 +54,7 @@ function App() {
     }
   }, [itemById]);
 
-  const { modalData } = useSelector((store) => {
+  const { modalData } = useSelector((store: RootState) => {
     return {
       modalData: (store as any).storeReducer.currentIngredient.content
         ? (store as any).storeReducer.currentIngredient

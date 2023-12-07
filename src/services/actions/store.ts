@@ -3,7 +3,7 @@ import { CLOSE_MODAL, IOpenModal, openModal } from "./modal";
 import { Dispatch } from "react";
 import { IBurgerIngredientItem } from "../../helpers/propsTypes/BurgerIngredientItem";
 import { IOrder, IPayloadModalInterface } from "../../api/types";
-import { ISocketOrder } from "../types";
+import { IResponseSocketMessage, ISocketOrder } from "../types";
 
 export const GET_INGREDIENTS = "GET_INGREDIENTS";
 export const GET_INGREDIENTS_SUCCESS = "GET_INGREDIENTS_SUCCESS";
@@ -61,7 +61,7 @@ interface IAddOrder {
 
 interface IGetSingleOrder {
   readonly type: typeof GET_SINGLE_ORDER;
-  payload: IGetOrderByIdResponse;
+  payload: ISocketOrder;
 }
 
 export type IStoreActions =
@@ -98,10 +98,7 @@ export const updateOrder = (
     payload: { startIndex, endIndex },
   };
 };
-export interface IGetOrderByIdResponse {
-  success: boolean;
-  orders: ISocketOrder[];
-}
+
 export const getSingleOrder = (id: string) => {
   return (dispatch: Dispatch<any>): void => {
     getOrderById(id)

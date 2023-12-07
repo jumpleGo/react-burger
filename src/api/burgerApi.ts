@@ -1,8 +1,8 @@
 import { get, post } from "./api";
 import { IBurgerIngredientItem } from "../helpers/propsTypes/BurgerIngredientItem";
 import { IOrder } from "./types";
-import { ISocketOrder } from "../services/types";
-import { IGetOrderByIdResponse } from "../services/actions/store";
+import { IResponseSocketMessage, ISocketOrder } from "../services/types";
+
 type ResponseBody<T> = {
   data: T;
 };
@@ -16,6 +16,6 @@ export const order = (orderArr: { ingredients: string[] }): Promise<IOrder> => {
 
 export const getOrderById = (
   orderId: string,
-): Promise<IGetOrderByIdResponse> => {
-  return get<IGetOrderByIdResponse>(`orders/${orderId}`);
+): Promise<IResponseSocketMessage> => {
+  return get<IResponseSocketMessage>(`orders/${orderId}`);
 };

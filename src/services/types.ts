@@ -8,3 +8,10 @@ export interface ISocketOrder {
   updatedAt: Date;
   _id: string;
 }
+
+export interface IResponseSocketMessage {
+  orders: ISocketOrder[];
+  success: boolean;
+  total: number;
+  totalToday: number;
+}

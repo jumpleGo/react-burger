@@ -1,30 +1,34 @@
 import { createAction } from "@reduxjs/toolkit";
-import { ISocketOrder } from "../types";
+import { IResponseSocketMessage, ISocketOrder } from "../types";
 
-export const WS_CONNECT: "WS_CONNECT" = "WS_CONNECT";
+export const WS_USER_CONNECT: "WS_USER_CONNECT" = "WS_USER_CONNECT";
 
-export const WS_DISCONNECT: "WS_DISCONNECT" = "WS_DISCONNECT";
-export const WS_CONNECTING: "WS_CONNECTING" = "WS_CONNECTING";
-export const WS_SEND_MESSAGE: "WS_SEND_MESSAGE" = "WS_SEND_MESSAGE";
-export const WS_OPEN: "WS_OPEN" = "WS_OPEN";
-export const WS_CLOSE: "WS_CLOSE" = "WS_CLOSE";
-export const WS_MESSAGE: "WS_MESSAGE" = "WS_MESSAGE";
-export const WS_ERROR: "WS_ERROR" = "WS_ERROR";
+export const WS_USER_DISCONNECT: "WS_USER_DISCONNECT" = "WS_USER_DISCONNECT";
+export const WS_USER_CONNECTING: "WS_USER_CONNECTING" = "WS_USER_CONNECTING";
+export const WS_USER_SEND_MESSAGE: "WS_USER_SEND_MESSAGE" =
+  "WS_USER_SEND_MESSAGE";
+export const WS_USER_OPEN: "WS_USER_OPEN" = "WS_USER_OPEN";
+export const WS_USER_CLOSE: "WS_USER_CLOSE" = "WS_USER_CLOSE";
+export const WS_USER_MESSAGE: "WS_USER_MESSAGE" = "WS_USER_MESSAGE";
+export const WS_USER_ERROR: "WS_USER_ERROR" = "WS_USER_ERROR";
 
-export const wsConnect = createAction<string, typeof WS_CONNECT>(WS_CONNECT);
-export const wsDisconnect = createAction<string, typeof WS_DISCONNECT>(
-  WS_DISCONNECT,
+export const wsConnect = createAction<string, typeof WS_USER_CONNECT>(
+  WS_USER_CONNECT,
 );
-export const wsConnecting = createAction(WS_CONNECTING);
-export const wsSendMessage = createAction(WS_SEND_MESSAGE);
-export const onOpen = createAction(WS_OPEN);
-export const onClose = createAction(WS_CLOSE);
-export const onMessage = createAction<ISocketOrder, typeof WS_MESSAGE>(
-  WS_MESSAGE,
+export const wsDisconnect = createAction(WS_USER_DISCONNECT);
+export const wsConnecting = createAction(WS_USER_CONNECTING);
+export const wsSendMessage = createAction(WS_USER_SEND_MESSAGE);
+export const onOpen = createAction(WS_USER_OPEN);
+export const onClose = createAction(WS_USER_CLOSE);
+export const onMessage = createAction<
+  IResponseSocketMessage,
+  typeof WS_USER_MESSAGE
+>(WS_USER_MESSAGE);
+export const onError = createAction<string, typeof WS_USER_ERROR>(
+  WS_USER_ERROR,
 );
-export const onError = createAction<string, typeof WS_ERROR>(WS_ERROR);
 
-export type TWSActionsType =
+export type TWSActionsUserType =
   | ReturnType<typeof wsConnect>
   | ReturnType<typeof wsDisconnect>
   | ReturnType<typeof wsConnecting>

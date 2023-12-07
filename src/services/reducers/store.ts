@@ -12,13 +12,14 @@ import {
 } from "../actions/store";
 import { IBurgerIngredientItem } from "../../helpers/propsTypes/BurgerIngredientItem";
 import { IOrder } from "../../api/types";
+import { IResponseSocketMessage, ISocketOrder } from "../types";
 
 interface IInitialState {
   ingredients: IBurgerIngredientItem[];
   burgerIngredients: IBurgerIngredientItem[];
   currentIngredient: IBurgerIngredientItem | {};
   order: IOrder | {};
-  currentSingleOrder: IOrder | {};
+  currentSingleOrder: ISocketOrder | null;
 }
 
 const initialState: IInitialState = {
@@ -26,7 +27,7 @@ const initialState: IInitialState = {
   burgerIngredients: [],
   currentIngredient: {},
   order: {},
-  currentSingleOrder: {},
+  currentSingleOrder: null,
 };
 
 export const storeReducer = (

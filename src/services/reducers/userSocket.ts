@@ -1,50 +1,55 @@
 import {
-  WS_CONNECT,
-  WS_ERROR,
-  WS_CLOSE,
-  WS_MESSAGE,
-  TWSActionsType,
-} from "../actions/socket";
+  WS_USER_CONNECT,
+  WS_USER_ERROR,
+  WS_USER_CLOSE,
+  WS_USER_MESSAGE,
+  TWSActionsUserType,
+} from "../actions/userSocket";
 import { IOrder } from "../../api/types";
 
-type TWSUserState = {
+import { IResponseSocketMessage, ISocketOrder } from "../types";
+
+export type TWSUserState = {
   wsConnected: boolean;
-  orders: Record<string, any>[];
-  error?: Event | undefined;
+  orders: IResponseSocketMessage | null;
+  error?: string | undefined;
   currentOrder: IOrder | undefined;
 };
 
 const initialState: TWSUserState = {
   wsConnected: false,
-  orders: [],
+  orders: null,
   error: undefined,
   currentOrder: undefined,
 };
 
-export const wsUserReducer = (state = initialState, action: TWSActionsType) => {
+export const wsUserReducer = (
+  state: TWSUserState = initialState,
+  action: TWSActionsUserType,
+): TWSUserState => {
   switch (action.type) {
-    case WS_CONNECT:
+    case WS_USER_CONNECT:
       return {
         ...state,
         error: undefined,
         wsConnected: true,
       };
 
-    case WS_ERROR:
+    case WS_USER_ERROR:
       return {
         ...state,
         error: action.payload,
         wsConnected: false,
       };
 
-    case WS_CLOSE:
+    case WS_USER_CLOSE:
       return {
         ...state,
         error: undefined,
         wsConnected: false,
       };
 
-    case WS_MESSAGE:
+    case WS_USER_MESSAGE:
       return {
         ...state,
         error: undefined,
