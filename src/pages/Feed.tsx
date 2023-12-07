@@ -9,6 +9,7 @@ import { getByStatus } from "../services/getters/allOrders";
 
 import { ISocketOrder } from "../services/types";
 import { useNavigate } from "react-router-dom";
+
 const Feed: React.FC = () => {
   const dispatch = useDispatch();
   const orders = useSelector((state: RootState) => state.wsReducer.orders);

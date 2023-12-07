@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import FeedCardStyles from "../../styles/Profile/FeedCard.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ISocketOrder } from "../../services/types";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/store";
 import { IBurgerIngredientItem } from "../../helpers/propsTypes/BurgerIngredientItem";
 import { RootState } from "../../services/store";
 interface FeedCardProps {

@@ -7,7 +7,7 @@ import {
 import DragConstructorElementWrapper from "./DragConstructorElementWrapper";
 import BurgerConstructorStyles from "../styles/BurgerConstructor.module.css";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../services/store";
 import {
   addIngredient,
   addOrder,

@@ -11,7 +11,7 @@ import {
   cleanModalData,
   getIngredients,
 } from "../../services/actions/store";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "./../../services/store";
 
 import { Routes, Route, useLocation } from "react-router-dom";
 import Main from "../../pages/Main";

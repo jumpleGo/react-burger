@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../services/store";
 import { translateTabs } from "../helpers/transcriptions";
 import { addModalIngredient } from "../services/actions/store";
 import { getIngredientById } from "../services/getters/store";

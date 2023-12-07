@@ -1,6 +1,6 @@
 import React, { Dispatch, useEffect } from "react";
 import OrderItem from "./Profile/OrderItem";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../services/store";
 import { getSingleOrder } from "../services/actions/store";
 import { useLocation } from "react-router-dom";
 import { wsDisconnect } from "../services/actions/socket";

@@ -11,13 +11,13 @@ import { getCookie } from "../../services/utils/cookie";
 import { ISocketOrder } from "../../services/types";
 import ProfileOrderCard from "./ProfileOrderCard";
 import { useNavigate } from "react-router-dom";
-import FeedCardStyles from "../../styles/Profile/FeedCard.module.css";
 import ProfileOrderItem from "../../styles/Profile/ProfileOrderItem.module.css";
-import { TWSUserState } from "../../services/reducers/userSocket";
+import { compareArrs } from "../../helpers/functions";
 
 const ProfileOrders: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const orders = useSelector((state: RootState) => state.wsUserReducer.orders);
 
   useEffect(() => {

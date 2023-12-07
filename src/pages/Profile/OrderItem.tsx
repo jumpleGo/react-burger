@@ -4,7 +4,7 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import { IBurgerIngredientItem } from "../../helpers/propsTypes/BurgerIngredientItem";
 import { IOrder } from "../../api/types";
 import { ISocketOrder } from "../../services/types";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/store";
 import { getStatus } from "../../helpers/transcriptions";
 import { RootState } from "../../services/store";
 

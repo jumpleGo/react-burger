@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector } from "../services/store";
 import { useLocation, useParams } from "react-router-dom";
 
 import { getIngredientById } from "../services/getters/store";
