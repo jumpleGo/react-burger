@@ -1,9 +1,9 @@
-import { ISocketOrder, OrderStatus } from "../types";
-import { RootState } from "../store";
+import { IResponseSocketMessage, ISocketOrder, OrderStatus } from "../types";
 
-const getByStatus = (state: RootState, status: OrderStatus) => {
-  const { orders } = state.wsReducer;
-
+const getByStatus = (
+  orders: IResponseSocketMessage | null,
+  status: OrderStatus,
+) => {
   let currentIdx = 0;
   return orders?.orders?.reduce(
     (acc: Record<string, ISocketOrder[]>, item: ISocketOrder) => {

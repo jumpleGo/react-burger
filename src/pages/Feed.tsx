@@ -13,17 +13,17 @@ import { useNavigate } from "react-router-dom";
 const Feed: React.FC = () => {
   const dispatch = useDispatch();
   const orders = useSelector((state: RootState) => state.wsReducer.orders);
-  const doneOrders = useSelector((state: RootState) =>
-    getByStatus(state, "done"),
+  const [doneOrders, setDoneOrders] = useState<Record<string, ISocketOrder[]>>(
+    {},
   );
+  const [pendingOrders, setPendingOrders] = useState<
+    Record<string, ISocketOrder[]>
+  >({});
+
   const navigate = useNavigate();
   const openRoute = (number: number) => {
     navigate(`/feed/${number}`);
   };
-
-  const pendingOrders = useSelector((state: RootState) =>
-    getByStatus(state, "pending"),
-  );
 
   useEffect(() => {
     dispatch(wsConnect(wsUrlAllOrders));
@@ -35,10 +35,11 @@ const Feed: React.FC = () => {
   }, [wsDisconnect, dispatch]);
 
   useEffect(() => {
-    return () => {
-      dispatch(wsDisconnect());
-    };
-  }, [wsDisconnect, dispatch]);
+    const done = getByStatus(orders, "done");
+    const pending = getByStatus(orders, "pending");
+    if (done) setDoneOrders(done);
+    if (pending) setPendingOrders(pending);
+  }, [orders]);
 
   return (
     <div className={FeedStyles.feed}>
@@ -65,7 +66,7 @@ const Feed: React.FC = () => {
               <div className="text text_type_main-medium">Готовы:</div>
               <div className={FeedStyles.ordersList}>
                 {doneOrders &&
-                  Object.keys(doneOrders).length &&
+                  Object.keys(doneOrders)?.length &&
                   Object.keys(doneOrders).map((key) => {
                     return (
                       <div
