@@ -43,3 +43,9 @@ export interface ITokenUpdate {
   accessToken: string;
   refreshToken: string;
 }
+
+export interface IPayloadModalInterface<T> {
+  content: T;
+  type: string;
+  classes?: string;
+}

@@ -8,22 +8,23 @@ import React, {
 } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../services/store";
 import { translateTabs } from "../helpers/transcriptions";
 import { addModalIngredient } from "../services/actions/store";
 import { getIngredientById } from "../services/getters/store";
 import { IBurgerIngredientItem } from "../helpers/propsTypes/BurgerIngredientItem";
 import BurgerIngredientItem from "./BurgerIngredientItem";
 import BurgerIngredientsStyles from "../styles/BurgerIngredients.module.css";
+import { RootState } from "../services/store";
 
 const BurgerIngredients: FC = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const burgerIngredients = useSelector(
-    (state: any) => state.storeReducer.burgerIngredients,
+    (state: RootState) => state.storeReducer.burgerIngredients,
   );
   const ingredients = useSelector(
-    (state: any) => state.storeReducer.ingredients,
+    (state: RootState) => state.storeReducer.ingredients,
   );
 
   const [state, setState] = useState<any>({

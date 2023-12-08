@@ -21,7 +21,7 @@ function AppHeader() {
             </>
           </HeaderButton>
 
-          <HeaderButton to="/orders">
+          <HeaderButton to="/feed">
             <>
               <ListIcon type="secondary" />
               <span>Лента заказов</span>
