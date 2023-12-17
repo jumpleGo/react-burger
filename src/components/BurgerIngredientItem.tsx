@@ -28,6 +28,7 @@ const BurgerIngredientItem: FC<BurgerIngredientItemProps> = ({
     <div
       ref={dragRef}
       className={BurgerIngredientItemStyles.burgerIngredientItem}
+      id="drag_elem"
       onClick={() => onClick(ingredientItem)}
     >
       <img

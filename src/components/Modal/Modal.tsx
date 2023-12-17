@@ -53,7 +53,7 @@ const Modal: FunctionComponent<ModalProps> = ({
   }
 
   return ReactDOM.createPortal(
-    <div className={ModalStyles.modalWrapper}>
+    <div className={ModalStyles.modalWrapper} id="modal">
       <div className={`${ModalStyles.modal} ${classes}`}>
         {title && (
           <div className={ModalStyles.modalHeader}>

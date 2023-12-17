@@ -85,11 +85,12 @@ const BurgerConstructor: React.FC = () => {
     <div
       ref={dropTarget}
       className={`${BurgerConstructorStyles.burgerConstructor} mt-25`}
+      id="drop_target"
     >
-      <div className={BurgerConstructorStyles.wrapper}>
+      <div className={BurgerConstructorStyles.wrapper} id="bun">
         {bun && (
           <ConstructorElement
-            extraClass="ml-8"
+            extraClass="ml-8 bun-element"
             type="top"
             isLocked={true}
             text={bun.name + "(верх)"}
@@ -109,7 +110,7 @@ const BurgerConstructor: React.FC = () => {
               item={item}
             >
               <ConstructorElement
-                extraClass="ml-1"
+                extraClass="ml-1 drop-ingredient-element"
                 text={item.name}
                 price={item.price}
                 thumbnail={item.image}
@@ -138,6 +139,7 @@ const BurgerConstructor: React.FC = () => {
         <Button
           type="primary"
           size="large"
+          id="submit_order_btn"
           htmlType="button"
           extraClass="ml-10"
           onClick={() => orderConfirm()}
