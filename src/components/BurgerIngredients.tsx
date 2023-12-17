@@ -21,11 +21,9 @@ const BurgerIngredients: FC = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const burgerIngredients = useSelector(
-    (state: RootState) => state.storeReducer.burgerIngredients,
+    (state) => state.storeReducer.burgerIngredients,
   );
-  const ingredients = useSelector(
-    (state: RootState) => state.storeReducer.ingredients,
-  );
+  const ingredients = useSelector((state) => state.storeReducer.ingredients);
 
   const [state, setState] = useState<any>({
     ingredientsByType: [],
@@ -114,10 +112,10 @@ const BurgerIngredients: FC = () => {
 
     setSortedIngredients(sortedData);
 
-    const template = Object.entries(sortedData).map(([type, items]) => (
+    const template = Object.entries(sortedData).map(([type, items], index) => (
       <div
         className={`${BurgerIngredientsStyles.burgerIngredients} mt-10`}
-        key={type}
+        key={`${type}-${index}`}
         ref={(element) => element && updateTypeRef(type, element)}
         id={type}
       >
@@ -128,7 +126,7 @@ const BurgerIngredients: FC = () => {
         </h2>
         <div className={`${BurgerIngredientsStyles.list} pl-1 pr-1`}>
           {(items as IBurgerIngredientItem[]).map((item) => (
-            <div className="mb-8">
+            <div className="mb-8" key={item._id}>
               <BurgerIngredientItem
                 ingredientItem={item}
                 key={`ingredient-item-${type}-${item._id}`}

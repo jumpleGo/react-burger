@@ -1,4 +1,4 @@
-import { wsUserReducer } from "./userSocket";
+import { initialState, wsUserReducer } from "./userSocket";
 import {
   WS_USER_CONNECT,
   WS_USER_ERROR,
@@ -9,10 +9,7 @@ import {
 describe("wsUserReducer", () => {
   it("should return the initial state", () => {
     expect(wsUserReducer(undefined, {})).toEqual({
-      wsConnected: false,
-      orders: null,
-      error: undefined,
-      currentOrder: undefined,
+      ...initialState,
     });
   });
 
@@ -21,10 +18,8 @@ describe("wsUserReducer", () => {
     const nextState = wsUserReducer(undefined, action);
 
     expect(nextState).toEqual({
+      ...initialState,
       wsConnected: true,
-      orders: null,
-      error: undefined,
-      currentOrder: undefined,
     });
   });
 
@@ -33,10 +28,8 @@ describe("wsUserReducer", () => {
     const nextState = wsUserReducer(undefined, action);
 
     expect(nextState).toEqual({
-      wsConnected: false,
-      orders: null,
+      ...initialState,
       error: "Connection error",
-      currentOrder: undefined,
     });
   });
 
@@ -45,10 +38,7 @@ describe("wsUserReducer", () => {
     const nextState = wsUserReducer(undefined, action);
 
     expect(nextState).toEqual({
-      wsConnected: false,
-      orders: null,
-      error: undefined,
-      currentOrder: undefined,
+      ...initialState,
     });
   });
 
@@ -60,20 +50,16 @@ describe("wsUserReducer", () => {
     const nextState = wsUserReducer(undefined, action);
 
     expect(nextState).toEqual({
-      wsConnected: false,
+      ...initialState,
       orders: ordersMock,
-      error: undefined,
-      currentOrder: undefined,
     });
   });
 
   it("should return current state for unknown action", () => {
     const action = { type: "UNKNOWN_ACTION" };
     const currentState = {
+      ...initialState,
       wsConnected: true,
-      orders: null,
-      error: undefined,
-      currentOrder: undefined,
     };
     const nextState = wsUserReducer(currentState, action);
 

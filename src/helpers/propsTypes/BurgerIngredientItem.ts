@@ -28,4 +28,5 @@ export interface IBurgerIngredientItem {
   type: string;
   __v: number;
   _id: string;
+  uniqueId?: string;
 }

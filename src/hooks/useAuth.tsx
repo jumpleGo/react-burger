@@ -8,7 +8,7 @@ import {
   token,
   userRequest,
 } from "../api/auth";
-import { UserData } from "../api/types";
+import { ILoginData, IRegisterData, UserData } from "../api/types";
 
 const clearCookie = () => {
   setCookie("token", "");
@@ -40,8 +40,8 @@ export function useAuth() {
 interface IUserProvideAuth {
   user: UserData | null;
   getUser: () => Promise<boolean>;
-  register: (form: any) => Promise<void>;
-  login: (form: any) => Promise<void>;
+  register: (form: IRegisterData) => Promise<void>;
+  login: (form: ILoginData) => Promise<void>;
   logout: () => Promise<void>;
 }
 export function useProvideAuth(): IUserProvideAuth {
@@ -80,7 +80,7 @@ export function useProvideAuth(): IUserProvideAuth {
     }
   };
 
-  const login = async (form: any) => {
+  const login = async (form: ILoginData) => {
     try {
       const data = await loginRequest(form);
       if (data.success) {
@@ -93,7 +93,7 @@ export function useProvideAuth(): IUserProvideAuth {
     }
   };
 
-  const register = async (form: any) => {
+  const register = async (form: IRegisterData) => {
     try {
       const data = await registerRequest(form);
       if (data.success) {

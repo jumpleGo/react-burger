@@ -12,7 +12,7 @@ interface FeedCardProps {
 const FeedCard: React.FC<FeedCardProps> = ({ data, onClick }) => {
   const getDate = (date: Date) => new Date(date).toDateString();
   const ingredients: IBurgerIngredientItem[] = useSelector(
-    (state: RootState) => state.storeReducer.ingredients,
+    (state) => state.storeReducer.ingredients,
   );
   const [currentIngredients, setCurrentIngredients] = useState<
     IBurgerIngredientItem[]

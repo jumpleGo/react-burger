@@ -22,7 +22,7 @@ interface IInitialState {
   currentSingleOrder: ISocketOrder | null;
 }
 
-const initialState: IInitialState = {
+export const initialState: IInitialState = {
   ingredients: [],
   burgerIngredients: [],
   currentIngredient: {},

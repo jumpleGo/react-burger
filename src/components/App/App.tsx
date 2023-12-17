@@ -38,7 +38,7 @@ function App() {
   const dispatch: Dispatch<any> = useDispatch();
   let location = useLocation();
   const { state: routeState } = location;
-  const itemById = useSelector((state: RootState) =>
+  const itemById = useSelector((state) =>
     getIngredientById(state, routeState?.id),
   );
   const { isModalOpen } = useSelector((store: RootState) => store.modalReducer);
@@ -54,7 +54,7 @@ function App() {
     }
   }, [itemById]);
 
-  const { modalData } = useSelector((store: RootState) => {
+  const { modalData } = useSelector((store) => {
     return {
       modalData: (store as any).storeReducer.currentIngredient.content
         ? (store as any).storeReducer.currentIngredient

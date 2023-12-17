@@ -18,7 +18,7 @@ const ProfileOrders: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const orders = useSelector((state: RootState) => state.wsUserReducer.orders);
+  const orders = useSelector((state) => state.wsUserReducer.orders);
 
   useEffect(() => {
     console.log("connect");

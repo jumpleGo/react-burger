@@ -4,10 +4,6 @@ export interface UserData {
   name: string;
   id?: string;
 }
-export type ApiDataResponse = {
-  data: any;
-  success: boolean;
-};
 
 export interface ApiUserResponse {
   success: boolean;
@@ -48,4 +44,25 @@ export interface IPayloadModalInterface<T> {
   content: T;
   type: string;
   classes?: string;
+}
+export interface IRegisterData {
+  email: string;
+  password: string;
+  name: string;
+}
+
+export interface ILoginData {
+  email: string;
+  password: string;
+}
+export interface IForgotPasswordData {
+  email: string;
+}
+export interface IResetPasswordData {
+  token: string;
+  password: string;
+}
+
+export interface ITokenData {
+  token: string | undefined;
 }

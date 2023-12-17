@@ -16,7 +16,7 @@ export type TWSUserState = {
   currentOrder: IOrder | undefined;
 };
 
-const initialState: TWSUserState = {
+export const initialState: TWSUserState = {
   wsConnected: false,
   orders: null,
   error: undefined,

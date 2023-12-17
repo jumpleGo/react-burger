@@ -8,6 +8,7 @@ import {
 import { IResponseSocketMessage, ISocketOrder } from "../services/types";
 import { WS_CONNECTING } from "../services/actions/socket";
 import { WS_USER_CONNECTING } from "../services/actions/userSocket";
+import { log } from "util";
 
 export type TwsActionTypes = {
   wsConnecting: ActionCreatorWithoutPayload<
@@ -71,6 +72,7 @@ export const socketMiddleware = (
         // функция, которая вызывается при получения события от сервера
         socket.onmessage = (event) => {
           const { data } = event;
+          console.log(data, event);
           const parsedData = JSON.parse(data);
           dispatch(onMessage(parsedData));
         };

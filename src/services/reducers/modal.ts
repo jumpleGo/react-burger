@@ -1,6 +1,6 @@
 import { CLOSE_MODAL, IModalActions, OPEN_MODAL } from "../actions/modal";
 
-const initialState = {
+export const initialState = {
   isModalOpen: false,
 };
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import FeedStyles from "../styles/pages/Feed.module.css";
 import FeedCard from "../components/Profile/FeedCard";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "./../services/store";
 import { wsConnect, wsDisconnect } from "../services/actions/socket";
 import { RootState, wsUrlAllOrders } from "../services/store";
 
@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 const Feed: React.FC = () => {
   const dispatch = useDispatch();
-  const orders = useSelector((state: RootState) => state.wsReducer.orders);
+  const orders = useSelector((state) => state.wsReducer.orders);
   const [doneOrders, setDoneOrders] = useState<Record<string, ISocketOrder[]>>(
     {},
   );

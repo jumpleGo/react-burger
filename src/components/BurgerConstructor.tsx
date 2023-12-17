@@ -7,7 +7,7 @@ import {
 import DragConstructorElementWrapper from "./DragConstructorElementWrapper";
 import BurgerConstructorStyles from "../styles/BurgerConstructor.module.css";
 
-import { useDispatch, useSelector } from "../services/store";
+import { RootState, useDispatch, useSelector } from "../services/store";
 import {
   addIngredient,
   addOrder,
@@ -21,6 +21,7 @@ import { getCookie } from "../services/utils/cookie";
 import { useNavigate } from "react-router-dom";
 import { openModal } from "../services/actions/modal";
 import { IBurgerIngredientItem } from "../helpers/propsTypes/BurgerIngredientItem";
+import BurgerIngredients from "./BurgerIngredients";
 
 type FillingItem = IBurgerIngredientItem & { uniqueId: string };
 
@@ -29,13 +30,13 @@ const BurgerConstructor: React.FC = () => {
   const [fillingIds, setFillingIds] = useState<string[]>([]);
   const fillings: FillingItem[] = useSelector(getFillings);
   const bun = useSelector(getBun);
-  const { burgerIngredients } = useSelector((state: any) => state.storeReducer);
+  const { burgerIngredients } = useSelector((state) => state.storeReducer);
   const [totalPrice, setTotalPrice] = useState(0);
   const navigate = useNavigate();
 
   const [, dropTarget] = useDrop({
     accept: "ingredients",
-    drop(item: any) {
+    drop(item: IBurgerIngredientItem) {
       const id = uuidv4();
       dispatch(addIngredient({ ...item, uniqueId: id }));
     },
@@ -76,7 +77,7 @@ const BurgerConstructor: React.FC = () => {
 
   const [, drop] = useDrop(() => ({
     accept: "UPDATE_ORDER",
-    drop: (item: any) => {
+    drop: () => {
       return { index: burgerIngredients.length };
     },
   }));
@@ -105,7 +106,7 @@ const BurgerConstructor: React.FC = () => {
         >
           {fillings?.map((item: FillingItem, index: number) => (
             <DragConstructorElementWrapper
-              key={item.uniqueId}
+              key={`${item.uniqueId}-${index}`}
               index={index}
               item={item}
             >

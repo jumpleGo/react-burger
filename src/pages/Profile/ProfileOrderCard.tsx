@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import FeedCardStyles from "../../styles/Profile/FeedCard.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ISocketOrder } from "../../services/types";
-import { useSelector } from "../../services/store";
+import { RootState, useSelector } from "../../services/store";
 import { IBurgerIngredientItem } from "../../helpers/propsTypes/BurgerIngredientItem";
 import { getStatus } from "../../helpers/transcriptions";
 interface ProfileOrderCardProps {
@@ -15,7 +15,7 @@ const ProfileOrderCard: React.FC<ProfileOrderCardProps> = ({
 }) => {
   const getDate = (date: Date) => new Date(date).toDateString();
   const ingredients: IBurgerIngredientItem[] = useSelector(
-    (state: any) => state.storeReducer.ingredients,
+    (state) => state.storeReducer.ingredients,
   );
   const [currentIngredients, setCurrentIngredients] = useState<
     IBurgerIngredientItem[]

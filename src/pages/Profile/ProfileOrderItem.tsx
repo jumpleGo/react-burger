@@ -13,7 +13,7 @@ const ProfileOrderItem: React.FC = () => {
   const match = location.pathname.match(pattern);
 
   const currentSingleOrder = useSelector(
-    (state: RootState) => state.storeReducer.currentSingleOrder,
+    (state) => state.storeReducer.currentSingleOrder,
   );
   useEffect(() => {
     if (match) {

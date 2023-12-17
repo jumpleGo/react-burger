@@ -13,7 +13,7 @@ const FeedItem: React.FC = () => {
   const pattern = /\/feed\/([a-fA-F0-9]+)/;
   const match = location.pathname.match(pattern);
   const currentSingleOrder = useSelector(
-    (state: RootState) => state.storeReducer.currentSingleOrder,
+    (state) => state.storeReducer.currentSingleOrder,
   );
 
   useEffect(() => {

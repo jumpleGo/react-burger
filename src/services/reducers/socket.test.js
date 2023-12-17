@@ -1,4 +1,4 @@
-import { wsReducer } from "./socket";
+import { initialState, wsReducer } from "./socket";
 import { WS_CONNECT, WS_ERROR, WS_CLOSE, WS_MESSAGE } from "../actions/socket";
 
 describe("wsReducer", () => {
@@ -64,14 +64,9 @@ describe("wsReducer", () => {
 
   it("should return current state for unknown action", () => {
     const action = { type: "UNKNOWN_ACTION" };
-    const currentState = {
-      wsConnected: true,
-      orders: null,
-      error: undefined,
-      currentOrder: undefined,
-    };
-    const nextState = wsReducer(currentState, action);
 
-    expect(nextState).toEqual(currentState);
+    const nextState = wsReducer(initialState, action);
+
+    expect(nextState).toEqual(initialState);
   });
 });

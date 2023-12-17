@@ -15,7 +15,7 @@ type TWSState = {
   currentOrder: IOrder | undefined;
 };
 
-const initialState: TWSState = {
+export const initialState: TWSState = {
   wsConnected: false,
   orders: null,
   error: undefined,

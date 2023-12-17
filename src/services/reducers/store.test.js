@@ -1,4 +1,4 @@
-import { storeReducer } from "./store";
+import { initialState, storeReducer } from "./store";
 import {
   GET_INGREDIENTS_SUCCESS,
   UPDATE_ORDER,
@@ -98,11 +98,8 @@ describe("storeReducer", () => {
 
   it("should handle UPDATE_ORDER", () => {
     const state = {
-      ingredients: [],
+      ...initialState,
       burgerIngredients: [{ type: "bun" }, { type: "main" }, { type: "sauce" }],
-      currentIngredient: {},
-      order: {},
-      currentSingleOrder: null,
     };
     const action = {
       type: UPDATE_ORDER,
@@ -111,11 +108,8 @@ describe("storeReducer", () => {
     const nextState = storeReducer(state, action);
 
     expect(nextState).toEqual({
+      ...initialState,
       burgerIngredients: [{ type: "bun" }, { type: "sauce" }, { type: "main" }],
-      ingredients: [],
-      currentIngredient: {},
-      order: {},
-      currentSingleOrder: null,
     });
   });
 
@@ -135,45 +129,33 @@ describe("storeReducer", () => {
 
   it("should handle ADD_INGREDIENT for non-bun", () => {
     const nonBunIngredient = { type: "non-bun" };
-    const initialState = {
-      ingredients: [],
+    const state = {
+      ...initialState,
       burgerIngredients: [{ type: "bun" /* mock bun data */ }],
-      currentIngredient: {},
-      order: {},
-      currentSingleOrder: null,
     };
     const action = { type: ADD_INGREDIENT, payload: nonBunIngredient };
-    const nextState = storeReducer(initialState, action);
+    const nextState = storeReducer(state, action);
 
     expect(nextState).toEqual({
-      ingredients: [],
-      burgerIngredients: [...initialState.burgerIngredients, nonBunIngredient],
-      currentIngredient: {},
-      order: {},
-      currentSingleOrder: null,
+      ...initialState,
+      burgerIngredients: [...state.burgerIngredients, nonBunIngredient],
     });
   });
 
   it("should handle REMOVE_INGREDIENT", () => {
-    const initialState = {
-      ingredients: [],
+    const state = {
+      ...initialState,
       burgerIngredients: [
         { type: "bun" /* mock bun data */ },
         { type: "non-bun" /* mock non-bun data */ },
       ],
-      currentIngredient: {},
-      order: {},
-      currentSingleOrder: null,
     };
     const action = { type: REMOVE_INGREDIENT, payload: 0 };
-    const nextState = storeReducer(initialState, action);
+    const nextState = storeReducer(state, action);
 
     expect(nextState).toEqual({
-      ingredients: [],
+      ...initialState,
       burgerIngredients: [{ type: "bun" /* mock bun data */ }],
-      currentIngredient: {},
-      order: {},
-      currentSingleOrder: null,
     });
   });
 
@@ -192,39 +174,30 @@ describe("storeReducer", () => {
   });
 
   it("should handle CLEAN_MODAL_DATA", () => {
-    const initialState = {
-      ingredients: [],
-      burgerIngredients: [],
+    const state = {
+      ...initialState,
       currentIngredient: {
         data: true,
       },
       order: {
         data: true,
       },
-      currentSingleOrder: null,
     };
     const action = { type: CLEAN_MODAL_DATA };
-    const nextState = storeReducer(initialState, action);
+    const nextState = storeReducer(state, action);
 
     expect(nextState).toEqual({
-      ingredients: [],
-      burgerIngredients: [],
-      currentIngredient: {},
-      order: {},
-      currentSingleOrder: null,
+      ...initialState,
     });
   });
 
   it("should handle CLEAR_INGREDIENTS", () => {
-    const initialState = {
-      ingredients: [],
+    const state = {
+      ...initialState,
       burgerIngredients: [{ type: "bun" /* mock bun data */ }],
-      currentIngredient: {},
-      order: {},
-      currentSingleOrder: null,
     };
     const action = { type: CLEAR_INGREDIENTS };
-    const nextState = storeReducer(initialState, action);
+    const nextState = storeReducer(state, action);
 
     expect(nextState).toEqual({
       ingredients: [],

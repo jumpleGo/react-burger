@@ -13,7 +13,7 @@ interface IOrderItemProps {
 }
 const OrderItem: React.FC<IOrderItemProps> = ({ data }) => {
   const ingredients: IBurgerIngredientItem[] = useSelector(
-    (state: RootState) => state.storeReducer.ingredients,
+    (state) => state.storeReducer.ingredients,
   );
   const [currentIngredients, setCurrentIngredients] = useState<
     Record<string, IBurgerIngredientItem[]>
