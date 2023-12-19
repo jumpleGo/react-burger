@@ -8,10 +8,12 @@ import { RootState, wsUrlAllOrders } from "../services/store";
 import { getByStatus } from "../services/getters/allOrders";
 
 import { ISocketOrder } from "../services/types";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { addModalIngredient } from "../services/actions/store";
 
 const Feed: React.FC = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const orders = useSelector((state) => state.wsReducer.orders);
   const [doneOrders, setDoneOrders] = useState<Record<string, ISocketOrder[]>>(
     {},
@@ -22,7 +24,16 @@ const Feed: React.FC = () => {
 
   const navigate = useNavigate();
   const openRoute = (number: number) => {
-    navigate(`/feed/${number}`);
+    dispatch(
+      addModalIngredient({
+        content: number,
+        type: "order",
+        classes: "pt-10 pl-10 pr-10 pb-15",
+      }),
+    );
+    navigate(`/feed/${number}`, {
+      state: { backgroundLocation: location, number },
+    });
   };
 
   useEffect(() => {

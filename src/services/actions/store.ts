@@ -1,6 +1,7 @@
 import { fetchData, getOrderById, order } from "../../api/burgerApi";
 import { CLOSE_MODAL, IOpenModal, openModal } from "./modal";
 import { Dispatch } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { IBurgerIngredientItem } from "../../helpers/propsTypes/BurgerIngredientItem";
 import { IOrder, IPayloadModalInterface } from "../../api/types";
 import { IResponseSocketMessage, ISocketOrder } from "../types";
@@ -51,7 +52,7 @@ interface ICleanModalData {
 
 interface IAddModalIngredient {
   readonly type: typeof ADD_MODAL_INGREDIENT;
-  payload: IPayloadModalInterface<IBurgerIngredientItem>;
+  payload: IPayloadModalInterface<IBurgerIngredientItem | number>;
 }
 
 interface IAddOrder {
@@ -118,9 +119,10 @@ export const getSingleOrder = (id: string) => {
 export const addIngredient = (
   ingredient: IBurgerIngredientItem,
 ): IAddIngredient => {
+  const id = uuidv4();
   return {
     type: ADD_INGREDIENT,
-    payload: ingredient,
+    payload: { ...ingredient, uniqueId: id },
   };
 };
 
@@ -138,7 +140,7 @@ export const clearIngredients = (): IClearIngredients => {
 };
 
 export const addModalIngredient = (
-  data: IPayloadModalInterface<IBurgerIngredientItem>,
+  data: IPayloadModalInterface<IBurgerIngredientItem | number>,
 ): IAddModalIngredient => {
   return {
     type: ADD_MODAL_INGREDIENT,

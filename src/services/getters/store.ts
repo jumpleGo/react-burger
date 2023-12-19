@@ -4,9 +4,9 @@ import { RootState } from "../store";
 const getFillings = (state: RootState) => {
   const { burgerIngredients } = state.storeReducer;
 
-  return burgerIngredients
-    .filter((item: IBurgerIngredientItem) => item.type !== "bun")
-    .map((item) => ({ ...item, uniqueId: "" }));
+  return burgerIngredients.filter(
+    (item: IBurgerIngredientItem) => item.type !== "bun",
+  );
 };
 
 const getBun = (state: RootState) => {

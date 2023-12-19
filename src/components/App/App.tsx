@@ -13,7 +13,13 @@ import {
 } from "../../services/actions/store";
 import { useDispatch, useSelector } from "./../../services/store";
 
-import { Routes, Route, useLocation } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  useLocation,
+  Router,
+  useNavigate,
+} from "react-router-dom";
 import Main from "../../pages/Main";
 import NotFound from "../../pages/NotFound";
 import Login from "../../pages/Login";
@@ -38,6 +44,7 @@ function App() {
   const dispatch: Dispatch<any> = useDispatch();
   let location = useLocation();
   const { state: routeState } = location;
+  const navigate = useNavigate();
   const itemById = useSelector((state) =>
     getIngredientById(state, routeState?.id),
   );
@@ -73,6 +80,10 @@ function App() {
     }
   };
 
+  const closeOrderModal = () => {
+    navigate(-1);
+  };
+
   return (
     <div className={`${AppStyles.App}`}>
       <ProvideAuth>
@@ -84,12 +95,14 @@ function App() {
         )}
         <Routes location={routeState?.backgroundLocation || location}>
           <Route path="/" element={<Main />} />
-
-          <Route path="/feed" element={<Feed />} />
           <Route path="/feed/:id" element={<FeedItem />} />
+          <Route path="/feed" element={<Feed />} />
 
           <Route path="/" element={<Main />} />
-          <Route path="ingredients/:id" element={<IngredientDetailsPage />} />
+          <Route
+            path="ingredients/:number"
+            element={<IngredientDetailsPage />}
+          />
           <Route path="*" element={<NotFound />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -108,23 +121,48 @@ function App() {
 
         {routeState?.backgroundLocation && (
           <Routes>
-            {
-              <Route
-                path="/ingredients/:id"
-                element={
-                  modalData.content && (
-                    <Modal
-                      title={"Детали ингридиента"}
-                      classes={modalData.classes}
-                      isRouteModal
-                      close={close}
-                    >
-                      <IngredientDetails ingredient={modalData.content} />
-                    </Modal>
-                  )
-                }
-              />
-            }
+            <Route
+              path="/ingredients/:number"
+              element={
+                modalData.content && (
+                  <Modal
+                    title={"Детали ингридиента"}
+                    classes={modalData.classes}
+                    isRouteModal
+                    close={close}
+                  >
+                    <IngredientDetails ingredient={modalData.content} />
+                  </Modal>
+                )
+              }
+            />
+            <Route
+              path="/feed/:id"
+              element={
+                modalData.content && (
+                  <Modal close={closeOrderModal} classes={modalData.classes}>
+                    <FeedItem />
+                  </Modal>
+                )
+              }
+            />
+            <Route
+              path="/profile/orders/:id"
+              element={
+                modalData.content && (
+                  <ProtectedRouteElement
+                    element={
+                      <Modal
+                        close={closeOrderModal}
+                        classes={modalData.classes}
+                      >
+                        <ProfileOrderItem />
+                      </Modal>
+                    }
+                  />
+                )
+              }
+            />
           </Routes>
         )}
       </ProvideAuth>

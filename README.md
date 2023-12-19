@@ -14,9 +14,9 @@ ReactJS, Redux-Thunk, Reduxm Typescript
 ### `npm test`
 
 ## Cypress тест
-### `npm cypress:open`
+### `cypress:open`
 
 ## Деплой
 
-### `npm deploy`
+### `npm run deploy`
 

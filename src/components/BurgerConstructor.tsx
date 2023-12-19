@@ -16,19 +16,17 @@ import {
 } from "../services/actions/store";
 import { DndProvider, useDrop } from "react-dnd";
 import { getBun, getFillings } from "../services/getters/store";
-import { v4 as uuidv4 } from "uuid";
+
 import { getCookie } from "../services/utils/cookie";
 import { useNavigate } from "react-router-dom";
 import { openModal } from "../services/actions/modal";
 import { IBurgerIngredientItem } from "../helpers/propsTypes/BurgerIngredientItem";
 import BurgerIngredients from "./BurgerIngredients";
 
-type FillingItem = IBurgerIngredientItem & { uniqueId: string };
-
 const BurgerConstructor: React.FC = () => {
   const dispatch: Dispatch<any> = useDispatch();
   const [fillingIds, setFillingIds] = useState<string[]>([]);
-  const fillings: FillingItem[] = useSelector(getFillings);
+  const fillings: IBurgerIngredientItem[] = useSelector(getFillings);
   const bun = useSelector(getBun);
   const { burgerIngredients } = useSelector((state) => state.storeReducer);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -37,16 +35,18 @@ const BurgerConstructor: React.FC = () => {
   const [, dropTarget] = useDrop({
     accept: "ingredients",
     drop(item: IBurgerIngredientItem) {
-      const id = uuidv4();
-      dispatch(addIngredient({ ...item, uniqueId: id }));
+      dispatch(addIngredient(item));
     },
   });
 
   useEffect(() => {
-    const ids = fillings?.reduce((acc: string[], item: FillingItem) => {
-      acc.push(item._id);
-      return acc;
-    }, []);
+    const ids = fillings?.reduce(
+      (acc: string[], item: IBurgerIngredientItem) => {
+        acc.push(item._id);
+        return acc;
+      },
+      [],
+    );
     setFillingIds([...ids, bun?._id as string, bun?._id as string]);
   }, [fillings, bun]);
 
@@ -55,7 +55,7 @@ const BurgerConstructor: React.FC = () => {
 
     const totalPrice =
       (bun?.price || 0) * 2 +
-      fillings?.reduce((acc: number, item: FillingItem) => {
+      fillings?.reduce((acc: number, item: IBurgerIngredientItem) => {
         acc += item?.price;
         return acc;
       }, 0);
@@ -76,7 +76,7 @@ const BurgerConstructor: React.FC = () => {
   };
 
   const [, drop] = useDrop(() => ({
-    accept: "UPDATE_ORDER",
+    accept: "LIST_ITEM",
     drop: () => {
       return { index: burgerIngredients.length };
     },
@@ -104,9 +104,9 @@ const BurgerConstructor: React.FC = () => {
           ref={drop}
           className={`${BurgerConstructorStyles.ingredients} pr-4`}
         >
-          {fillings?.map((item: FillingItem, index: number) => (
+          {fillings?.map((item: IBurgerIngredientItem, index: number) => (
             <DragConstructorElementWrapper
-              key={`${item.uniqueId}-${index}`}
+              key={item.uniqueId}
               index={index}
               item={item}
             >

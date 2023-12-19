@@ -52,6 +52,7 @@ const ProfileOrderCard: React.FC<ProfileOrderCardProps> = ({
           {currentIngredients.map((item) => {
             return (
               <div
+                key={item.uniqueId}
                 className={FeedCardStyles.ingredient}
                 style={{ backgroundImage: `url('${item.image_mobile}')` }}
               />

@@ -11,7 +11,7 @@ import {
 } from "react-redux";
 
 export const wsUrlAllOrders = "wss://norma.nomoreparties.space/orders/all";
-export const wsUrlOrders = "wss://norma.nomoreparties.space/all";
+export const wsUrlOrders = "wss://norma.nomoreparties.space/orders";
 
 const composeEnhancers =
   typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
