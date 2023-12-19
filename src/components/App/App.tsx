@@ -139,28 +139,21 @@ function App() {
             <Route
               path="/feed/:id"
               element={
-                modalData.content && (
-                  <Modal close={closeOrderModal} classes={modalData.classes}>
-                    <FeedItem />
-                  </Modal>
-                )
+                <Modal close={closeOrderModal} classes={modalData.classes}>
+                  <FeedItem />
+                </Modal>
               }
             />
             <Route
               path="/profile/orders/:id"
               element={
-                modalData.content && (
-                  <ProtectedRouteElement
-                    element={
-                      <Modal
-                        close={closeOrderModal}
-                        classes={modalData.classes}
-                      >
-                        <ProfileOrderItem />
-                      </Modal>
-                    }
-                  />
-                )
+                <ProtectedRouteElement
+                  element={
+                    <Modal close={closeOrderModal} classes={modalData.classes}>
+                      <ProfileOrderItem />
+                    </Modal>
+                  }
+                />
               }
             />
           </Routes>
