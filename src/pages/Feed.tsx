@@ -32,7 +32,7 @@ const Feed: React.FC = () => {
       }),
     );
     navigate(`/feed/${number}`, {
-      state: { backgroundLocation: location, number },
+      state: { backgroundLocation: location, id: number },
     });
   };
 
