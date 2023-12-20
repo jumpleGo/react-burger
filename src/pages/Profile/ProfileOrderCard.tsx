@@ -49,10 +49,10 @@ const ProfileOrderCard: React.FC<ProfileOrderCardProps> = ({
       </div>
       <div className={FeedCardStyles.content}>
         <div className={FeedCardStyles.ingredients}>
-          {currentIngredients.map((item) => {
+          {currentIngredients.map((item, index) => {
             return (
               <div
-                key={item.uniqueId}
+                key={`${item.uniqueId}-${index}`}
                 className={FeedCardStyles.ingredient}
                 style={{ backgroundImage: `url('${item.image_mobile}')` }}
               />

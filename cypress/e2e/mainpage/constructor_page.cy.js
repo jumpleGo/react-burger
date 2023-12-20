@@ -3,7 +3,6 @@ describe("constructor page", function () {
     cy.visit("/");
     cy.get("#drag_elem").as("drag_elem");
     cy.get("#drop_target").as("drop_target");
-    cy.get("#modal").as("modal");
   });
   it("should drug bun success", () => {
     cy.get("@drag_elem").first().trigger("dragstart");
@@ -14,7 +13,7 @@ describe("constructor page", function () {
 
   it("detail modal  open", () => {
     cy.get("@drag_elem").first().click();
-    cy.get("@modal").first().should("be.visible");
+    cy.get("#modal").first().should("be.visible");
   });
 
   it("success order", () => {
@@ -25,6 +24,6 @@ describe("constructor page", function () {
     cy.get("@drop_target").trigger("drop");
 
     cy.get("#submit_order_btn").click();
-    cy.get("@modal").first().should("be.visible");
+    cy.get("#modal").first().should("be.visible");
   });
 });

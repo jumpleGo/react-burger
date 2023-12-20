@@ -10,10 +10,13 @@ import { RootState } from "../services/store";
 interface IngredientDetailsPageProps {}
 
 const IngredientDetailsPage: React.FC<IngredientDetailsPageProps> = () => {
-  const { id } = useParams<{ id: string }>();
+  const params = useParams<{ number: string }>();
+
   const [itemIsLoading, setIsLoading] = useState<boolean>(true);
 
-  const item = useSelector((state: RootState) => getIngredientById(state, id));
+  const item = useSelector((state: RootState) =>
+    getIngredientById(state, params.number),
+  );
   const location = useLocation();
 
   useEffect(() => {
